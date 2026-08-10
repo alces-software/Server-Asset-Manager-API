@@ -2,7 +2,7 @@ import { Context, Next } from 'hono';
 import { prisma } from '../lib/prisma';
 
 async function logRequests(c: Context, next: Next) {
-   if (!c.req.path.startsWith('/api/v2/')) {
+   if (!c.req.path.startsWith('/api/')) {
       return next();
    }
 
