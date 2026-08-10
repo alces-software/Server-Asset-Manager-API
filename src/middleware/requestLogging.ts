@@ -22,6 +22,11 @@ async function logRequests(c: Context, next: Next) {
    const responseSizeBytes = Number(c.res.headers.get('content-length')) || null;
 
    try {
+      const timestamp = new Date();
+
+      const hourBucket = new Date(timestamp);
+      hourBucket.setMinutes(0, 0, 0);
+
       await prisma.log.create({
          data: {
             user: user?.id
@@ -36,7 +41,8 @@ async function logRequests(c: Context, next: Next) {
             durationMs,
             code: String(c.res.status),
             requestSizeBytes,
-            responseSizeBytes
+            responseSizeBytes,
+            hourBucket
          }
       });
    } catch (error) {

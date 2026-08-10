@@ -2717,50 +2717,125 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/User"
+
     Stats:
       type: object
       required:
         - totalRequests
         - last24Hours
+        - statusCodes
+        - methods
         - endpoints
+        - slowRequests
+        - verySlowRequests
+        - requestsOverTime
       properties:
         totalRequests:
           type: integer
           format: int64
           description: Total number of requests logged.
+          example: 15234
 
         last24Hours:
-          type: object
-          required:
-            - requests
-            - errors
-            - errorRate
-            - averageDurationMs
-          properties:
-            requests:
-              type: integer
-              format: int64
-              description: Number of requests in the last 24 hours.
+          $ref: "#/components/schemas/StatsPeriod"
 
-            errors:
-              type: integer
-              format: int64
-              description: Number of 5xx responses in the last 24 hours.
+        statusCodes:
+          $ref: "#/components/schemas/StatusCodeStats"
 
-            errorRate:
-              type: number
-              format: double
-              description: Percentage of requests resulting in a 5xx response.
-
-            averageDurationMs:
-              type: number
-              format: double
-              description: Average request duration in milliseconds.
+        methods:
+          $ref: "#/components/schemas/MethodStats"
 
         endpoints:
           type: array
           items:
             $ref: "#/components/schemas/EndpointStats"
+
+        slowRequests:
+          type: integer
+          format: int64
+          description: Number of requests taking longer than 500 milliseconds.
+          example: 18
+
+        verySlowRequests:
+          type: integer
+          format: int64
+          description: Number of requests taking longer than 1 second.
+          example: 4
+
+        requestsOverTime:
+          type: array
+          description: Number of requests grouped into hourly time buckets.
+          items:
+            $ref: "#/components/schemas/RequestTimeBucket"
+
+    StatsPeriod:
+      type: object
+      required:
+        - requests
+        - errors
+        - errorRate
+        - averageDurationMs
+      properties:
+        requests:
+          type: integer
+          format: int64
+          description: Number of requests in the period.
+          example: 842
+
+        errors:
+          type: integer
+          format: int64
+          description: Number of 5xx responses in the period.
+          example: 12
+
+        errorRate:
+          type: number
+          format: double
+          description: Percentage of requests resulting in a 5xx response.
+          example: 1.43
+
+        averageDurationMs:
+          type: number
+          format: double
+          description: Average request duration in milliseconds.
+          example: 87.5
+
+    StatusCodeStats:
+      type: object
+      required:
+        - "2xx"
+        - "3xx"
+        - "4xx"
+        - "5xx"
+      properties:
+        "2xx":
+          type: integer
+          format: int64
+          example: 812
+        "3xx":
+          type: integer
+          format: int64
+          example: 4
+        "4xx":
+          type: integer
+          format: int64
+          example: 23
+        "5xx":
+          type: integer
+          format: int64
+          example: 3
+
+    MethodStats:
+      type: object
+      additionalProperties:
+        type: integer
+        format: int64
+      description: Number of requests grouped by HTTP method.
+      example:
+        GET: 620
+        POST: 180
+        PATCH: 31
+        DELETE: 11
 
     EndpointStats:
       type: object
@@ -2772,16 +2847,37 @@ components:
         endpoint:
           type: string
           description: Request endpoint.
+          example: /api/v2/users
 
         requests:
           type: integer
           format: int64
           description: Number of requests to this endpoint.
+          example: 321
 
         averageDurationMs:
           type: number
           format: double
           description: Average request duration in milliseconds.
+          example: 54.2
+
+    RequestTimeBucket:
+      type: object
+      required:
+        - timestamp
+        - requests
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Start of the hourly time bucket.
+          example: "2026-08-10T13:00:00Z"
+
+        requests:
+          type: integer
+          format: int64
+          description: Number of requests in the time bucket.
+          example: 241
 
     AssetBase:
       type: object

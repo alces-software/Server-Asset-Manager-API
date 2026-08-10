@@ -10,6 +10,7 @@ model Log {
   id                Int      @id @default(autoincrement())
   userId            Int?
   timestamp         DateTime @default(now())
+  hourBucket        DateTime
   endpoint          String   @db.VarChar(255)
   method            String   @db.VarChar(255)
   durationMs        Int?
@@ -19,6 +20,7 @@ model Log {
 
   user User? @relation(fields: [userId], references: [id])
 
+  @@index([hourBucket])
   @@map("Logs")
 }
 
