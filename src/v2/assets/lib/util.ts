@@ -1,6 +1,11 @@
 import { prisma } from '../../../lib/prisma';
 import { getValueFromJson } from '../../../lib/util';
 
+/**
+ * Creates the build request with the data passed in
+ * @param body 
+ * @returns 
+ */
 function buildBaseAssetSchema(body: {
    name: string;
    group?: number;
@@ -33,6 +38,12 @@ function buildBaseAssetSchema(body: {
    };
 }
 
+/**
+ * Creates the asset in it's standardised for with the data passed in
+ * @param asset 
+ * @param extra 
+ * @returns 
+ */
 function serializeAsset(
    asset: {
       id: number;
@@ -75,15 +86,21 @@ function serializeAsset(
       }),
       json: asset.json[0]
          ? {
-              id: asset.json[0].id,
-              rawJson: asset.json[0].rawJson,
-              position: asset.jsonPosition,
-              total: asset._count.json
-           }
+            id: asset.json[0].id,
+            rawJson: asset.json[0].rawJson,
+            position: asset.jsonPosition,
+            total: asset._count.json
+         }
          : null
    };
 }
 
+/**
+ * Creates the path in the standardised form using the data passed in
+ * @param path 
+ * @param json 
+ * @returns 
+ */
 function serializePath(
    path: {
       id: number;
@@ -100,6 +117,9 @@ function serializePath(
    };
 }
 
+/**
+ * The standard includes for assets
+ */
 const assetInclude = {
    group: true,
    tags: true,
@@ -130,6 +150,12 @@ const assetInclude = {
    }
 };
 
+/**
+ * Checks whether a storage can be moved into the new storage checking for circles of any sort
+ * @param storageId 
+ * @param newParentId 
+ * @returns 
+ */
 async function canMoveStorage(storageId: number, newParentId: number): Promise<boolean> {
    let current = await prisma.storage.findUnique({
       where: { id: newParentId },
