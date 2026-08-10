@@ -8,8 +8,30 @@ permissions:
    contents: write
 
 jobs:
+   lint:
+      name: lint
+      runs-on: ubuntu-latest
+
+      steps:
+         - name: Checkout PR branch
+           uses: actions/checkout@v7
+           with:
+              ref: ${{ github.head_ref }}
+
+         - name: Setup Node
+           uses: actions/setup-node@v7
+           with:
+              node-version: latest
+
+         - name: Install linting tools
+           run: npm install --no-save eslint @eslint/js typescript typescript-eslint
+
+         - name: Lint
+           run: |
+              npx eslint --fix .
    format:
       name: format
+      needs: lint
       runs-on: ubuntu-latest
 
       steps:
@@ -34,34 +56,4 @@ jobs:
 
               git add .
               git commit -m "chore: apply formatting" || exit 0
-              git push
-   lint:
-      name: lint
-      runs-on: ubuntu-latest
-
-      steps:
-         - name: Checkout PR branch
-           uses: actions/checkout@v7
-           with:
-              ref: ${{ github.head_ref }}
-
-         - name: Setup Node
-           uses: actions/setup-node@v7
-           with:
-              node-version: latest
-
-         - name: Install linting tools
-           run: npm install --no-save eslint @eslint/js typescript typescript-eslint prettier eslint-config-prettier
-
-         - name: Lint
-           run: |
-              npx eslint --fix .
-
-         - name: Commit linting changes
-           run: |
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-              git add .
-              git commit -m "chore: apply linting" || exit 0
               git push
