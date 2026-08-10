@@ -141,7 +141,7 @@ export default new Hono().get('/', async (c) => {
                }
             },
             _count: {
-               hourBucket: true
+               _all: true
             },
             orderBy: {
                hourBucket: 'asc'
@@ -202,7 +202,7 @@ export default new Hono().get('/', async (c) => {
 
          requestsOverTime: requestsOverTime.map((bucket) => ({
             timestamp: bucket.hourBucket,
-            requests: Number(bucket._count.hourBucket)
+            requests: Number(bucket._count._all)
          }))
       });
    } catch (err) {
