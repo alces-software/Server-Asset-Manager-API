@@ -6,7 +6,7 @@ import { serve } from '@hono/node-server';
 import { compress } from 'hono/compress';
 import { trimTrailingSlash } from 'hono/trailing-slash';
 
-import { internalServerError, unauthorisedError } from './lib/errorMessages';
+import { internalServerError } from './lib/errorMessages';
 import { getUserFromJWT, validateJWT } from './middleware/jwtValidation';
 import { logRequests } from './middleware/requestLogging';
 
@@ -33,14 +33,7 @@ app.route('/api/v1', v1);
 app.route('/api/v2', v2);
 
 // Handle uncaught errors
-app.onError((err, c) => {
-   // console.log(c.res.status);
-   // if (err?.status === 401) {
-   //    return unauthorisedError(c);
-   // }
-
-   return internalServerError(c, err);
-});
+app.onError((err, c) => internalServerError(c, err));
 
 // 404 Error
 app.notFound((c) =>
