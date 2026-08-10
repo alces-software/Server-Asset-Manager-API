@@ -7,7 +7,7 @@ import type { Context } from 'hono';
  * @returns The value at the path or null if not found
  */
 function getValueFromJson<T = unknown>(obj: unknown, path: string): T | null {
-   let current: any = obj;
+   let current: unknown = obj;
 
    for (const part of path.split('/').filter(Boolean)) {
       if (current == null) return null;
@@ -19,7 +19,7 @@ function getValueFromJson<T = unknown>(obj: unknown, path: string): T | null {
          current = current[Number(arrayMatch[1])];
       } else {
          if (typeof current !== 'object') return null;
-         current = current[part];
+         current = (current as Record<string, unknown>)[part];
       }
    }
 
