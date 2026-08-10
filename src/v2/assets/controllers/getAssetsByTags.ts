@@ -10,17 +10,17 @@ export default new Hono().get(
    '/',
    paginationQueryValidator({
       tags: z
-         .string({ error: "Tags must be a string" })
+         .string({ error: 'Tags must be a string' })
          .trim()
-         .min(1, { error: "Tags cannot be empty" })
-         .transform((value) => value.split(",").filter(Boolean).map(Number))
+         .min(1, { error: 'Tags cannot be empty' })
+         .transform((value) => value.split(',').filter(Boolean).map(Number))
          .pipe(
             z
                .array(z.number().int().positive(), {
-                  error: "Tags must contain valid IDs",
+                  error: 'Tags must contain valid IDs'
                })
-               .min(1, { error: "At least one tag is required" }),
-         ),
+               .min(1, { error: 'At least one tag is required' })
+         )
    }),
    async (c) => {
       try {
