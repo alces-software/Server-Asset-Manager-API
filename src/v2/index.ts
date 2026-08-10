@@ -7,6 +7,7 @@ import templates from './templates';
 import groups from './groups';
 import tags from './tags';
 import assets from './assets';
+import logs from './logs';
 
 export default new Hono()
    .route('/assets', assets)
@@ -15,4 +16,5 @@ export default new Hono()
    .route('/roles', roles)
    .route('/tags', tags)
    .route('/templates', templates)
-   .route('/users', users);
+   .route('/users', users)
+   .route('/logs', logs);

@@ -6,6 +6,22 @@ datasource db {
   provider = "mysql"
 }
 
+model Log {
+  id                Int      @id @default(autoincrement())
+  userId            Int?
+  timestamp         DateTime @default(now())
+  endpoint          String   @db.VarChar(255)
+  method            String   @db.VarChar(255)
+  durationMs        Int?
+  code              String?  @db.VarChar(255)
+  requestSizeBytes  Int?
+  responseSizeBytes Int?
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("Logs")
+}
+
 model Role {
   id          Int          @id @default(autoincrement())
   name        String       @unique(map: "name") @db.VarChar(255)
@@ -30,6 +46,7 @@ model User {
   roleId       Int
   refreshToken UserRefreshToken?
   role         Role              @relation(fields: [roleId], references: [id], onUpdate: Restrict, map: "fk_users_role")
+  logs         Log[]
 
   @@index([roleId], map: "fk_users_role")
   @@map("Users")
@@ -93,10 +110,10 @@ model Storage {
 }
 
 model Server {
-  id       Int     @id
-  model    String? @db.VarChar(255)
-  size     Int?
-  asset    Asset   @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_server_asset")
+  id    Int     @id
+  model String? @db.VarChar(255)
+  size  Int?
+  asset Asset   @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_server_asset")
 
   @@map("Servers")
 }
