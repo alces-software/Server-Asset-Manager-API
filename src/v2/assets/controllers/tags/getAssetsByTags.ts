@@ -1,11 +1,11 @@
 import { Hono } from 'hono';
 
-import { prisma } from '../../../lib/prisma';
-import { forbiddenError, internalServerError } from '../../../lib/errorMessages';
-import { assetInclude, serializeAsset } from '../lib/util';
-import { paginationQueryValidator } from '../../../lib/validators';
+import { prisma } from '../../../../lib/prisma';
+import { forbiddenError, internalServerError } from '../../../../lib/errorMessages';
+import { assetInclude, serializeAsset } from '../../lib/util';
+import { paginationQueryValidator } from '../../../../lib/validators';
 import { z } from 'zod';
-import { validatePermissions } from '../../../lib/util';
+import { validatePermissions } from '../../../../lib/util';
 
 export default new Hono().get(
    '/',
