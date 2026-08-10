@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
    title: Asset Rack API
    description: API for managing racks and assets.
-   version: 2.0.0
+   version: 2.0.1
 servers:
    - url: "http://localhost:3000/api/v2"
      description: Local development server for v2
@@ -36,6 +36,29 @@ paths:
          responses:
             "200":
                description: List of assets.
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/AssetsPage"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
+
+   /assets/search:
+      get:
+         tags: [Assets]
+         operationId: searchAssets
+         summary: Search assets by ID or name
+         parameters:
+            - $ref: "#/components/parameters/Query"
+            - $ref: "#/components/parameters/Page"
+            - $ref: "#/components/parameters/Limit"
+         responses:
+            "200":
+               description: Matching assets
                content:
                   application/json:
                      schema:
@@ -813,6 +836,26 @@ paths:
                $ref: "#/components/responses/InternalServerError"
 
    /assets/generic:
+      get:
+         tags: [Assets]
+         operationId: listGenericAssets
+         summary: List all generic assets.
+         parameters:
+            - $ref: "#/components/parameters/Page"
+            - $ref: "#/components/parameters/Limit"
+         responses:
+            "200":
+               description: List of generic assets.
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/AssetsPage"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
       post:
          tags: [Assets]
          operationId: createGenericAsset
@@ -840,12 +883,45 @@ paths:
                $ref: "#/components/responses/Conflict"
             "500":
                $ref: "#/components/responses/InternalServerError"
+
+   /assets/generic/{id}:
+      get:
+         tags: [Assets]
+         operationId: getGenericAsset
+         summary: Get a generic asset by ID.
+         parameters:
+            - name: id
+              in: path
+              required: true
+              schema:
+                 type: integer
+                 format: int32
+         responses:
+            "200":
+               description: Generic asset details.
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/AssetBase"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "404":
+               $ref: "#/components/responses/NotFound"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
       patch:
          tags: [Assets]
          operationId: updateGenericAsset
          summary: Update a generic asset.
          parameters:
-            - $ref: "#/components/parameters/AssetId"
+            - name: id
+              in: path
+              required: true
+              schema:
+                 type: integer
+                 format: int32
          requestBody:
             required: true
             content:
@@ -869,6 +945,7 @@ paths:
                $ref: "#/components/responses/Forbidden"
             "500":
                $ref: "#/components/responses/InternalServerError"
+
    /groups:
       get:
          tags: [Groups]
@@ -926,6 +1003,29 @@ paths:
             "204":
                description: Group deleted.
 
+   /groups/search:
+      get:
+         tags: [Groups]
+         operationId: searchGroups
+         summary: Search groups by name or ID
+         parameters:
+            - $ref: "#/components/parameters/Query"
+            - $ref: "#/components/parameters/Page"
+            - $ref: "#/components/parameters/Limit"
+         responses:
+            "200":
+               description: Matching groups
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/GroupsPage"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
+
    /tags:
       get:
          tags: [Tags]
@@ -980,6 +1080,29 @@ paths:
          responses:
             "204":
                description: Tag deleted.
+
+   /tags/search:
+      get:
+         tags: [Tags]
+         operationId: searchTags
+         summary: Search tags by name or ID
+         parameters:
+            - $ref: "#/components/parameters/Query"
+            - $ref: "#/components/parameters/Page"
+            - $ref: "#/components/parameters/Limit"
+         responses:
+            "200":
+               description: Matching tags
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/TagsPage"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
    /templates:
       get:
@@ -1253,6 +1376,27 @@ paths:
                description: Internal server error
 
    /users:
+      get:
+         tags:
+            - Users
+         operationId: listUsers
+         summary: List all users
+         parameters:
+            - $ref: "#/components/parameters/Page"
+            - $ref: "#/components/parameters/Limit"
+         responses:
+            "200":
+               description: List of users
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/UsersPage"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
       post:
          tags:
             - Users
@@ -1348,6 +1492,24 @@ paths:
                $ref: "#/components/responses/Forbidden"
             "404":
                $ref: "#/components/responses/NotFound"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
+
+   /users/current:
+      get:
+         tags:
+            - Users
+         operationId: getCurrentUser
+         summary: Get details for the currently authenticated user
+         responses:
+            "200":
+               description: Current user details
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/User"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
             "500":
                $ref: "#/components/responses/InternalServerError"
 
@@ -1452,6 +1614,7 @@ paths:
                $ref: "#/components/responses/Unauthorised"
             "500":
                $ref: "#/components/responses/InternalServerError"
+
    /users/logout:
       post:
          tags:
@@ -1685,6 +1848,7 @@ paths:
                $ref: "#/components/responses/Forbidden"
             "500":
                $ref: "#/components/responses/InternalServerError"
+
    /roles/permissions/{id}/remove:
       post:
          tags:
@@ -2260,6 +2424,26 @@ components:
                type: array
                items:
                   $ref: "#/components/schemas/Role"
+
+      UsersPage:
+         type: object
+         properties:
+            page:
+               type: integer
+               format: int32
+            limit:
+               type: integer
+               format: int32
+            total:
+               type: integer
+               format: int32
+            totalPages:
+               type: integer
+               format: int32
+            users:
+               type: array
+               items:
+                  $ref: "#/components/schemas/User"
 
       AssetBase:
          type: object
