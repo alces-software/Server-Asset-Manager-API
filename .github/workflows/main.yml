@@ -50,7 +50,7 @@ jobs:
            with:
               node-version: latest
 
-         - name: lint
+         - name: Lint
            run: |
               npx eslint --fix .
 
