@@ -946,6 +946,31 @@ paths:
             "500":
                $ref: "#/components/responses/InternalServerError"
 
+   /assets/groups/{id}:
+      get:
+         tags: [Assets]
+         operationId: listAssetsByGroup
+         summary: List assets belonging to a group
+         parameters:
+            - $ref: "#/components/parameters/ID"
+            - $ref: "#/components/parameters/Page"
+            - $ref: "#/components/parameters/Limit"
+         responses:
+            "200":
+               description: List of assets in the group
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/AssetsPage"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "404":
+               $ref: "#/components/responses/NotFound"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
+
    /groups:
       get:
          tags: [Groups]
@@ -2227,7 +2252,7 @@ components:
             total:
                type: integer
                format: int32
-            totalPagess:
+            totalPages:
                type: integer
                format: int32
             assets:
