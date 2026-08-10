@@ -837,6 +837,28 @@ paths:
             "500":
                $ref: "#/components/responses/InternalServerError"
 
+   /assets/storages/{storageId}/assets:
+      get:
+         tags: [Assets]
+         operationId: listAssetsInStorage
+         summary: List all assets within a storage device.
+         parameters:
+            - $ref: "#/components/parameters/Page"
+            - $ref: "#/components/parameters/Limit"
+         responses:
+            "200":
+               description: List of assets.
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/AssetsPage"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
+
    /assets/generic:
       get:
          tags: [Assets]
