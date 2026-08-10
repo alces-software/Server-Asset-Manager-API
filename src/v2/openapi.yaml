@@ -973,6 +973,38 @@ paths:
             "500":
                $ref: "#/components/responses/InternalServerError"
 
+   /assets/tags:
+      get:
+         tags: [Assets]
+         operationId: listAssetsByTags
+         summary: List assets filtered by tags
+         description: Returns assets that have any of the supplied tag IDs. Provide `tags` as a comma-separated list of IDs.
+         parameters:
+            - name: tags
+              in: query
+              required: true
+              description: Comma-separated list of tag IDs (e.g. "1,2,3").
+              schema:
+                 type: string
+                 example: "1,2,3"
+            - $ref: "#/components/parameters/Page"
+            - $ref: "#/components/parameters/Limit"
+         responses:
+            "200":
+               description: List of assets matching the tags
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/AssetsPage"
+            "400":
+               $ref: "#/components/responses/BadRequest"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
+
    /groups:
       get:
          tags: [Groups]
