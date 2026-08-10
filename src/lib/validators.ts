@@ -2,6 +2,11 @@ import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
 import { invalidBodyError, invalidParametersError, invalidQueryError } from './errorMessages';
 
+/**
+ * Used to validate the param request input
+ * @param validator
+ * @returns
+ */
 const paramValidator = <T extends z.ZodTypeAny>(validator: T) =>
    zValidator('param', validator, (result, c) => {
       if (!result.success) {
@@ -9,6 +14,11 @@ const paramValidator = <T extends z.ZodTypeAny>(validator: T) =>
       }
    });
 
+/**
+ * Used to validate the body request input
+ * @param validator
+ * @returns
+ */
 const bodyValidator = <T extends z.ZodTypeAny>(validator: T) =>
    zValidator('json', validator, (result, c) => {
       if (!result.success) {
@@ -16,6 +26,11 @@ const bodyValidator = <T extends z.ZodTypeAny>(validator: T) =>
       }
    });
 
+/**
+ * Used to validate the query request input
+ * @param validator
+ * @returns
+ */
 const queryValidator = <T extends z.ZodTypeAny>(validator: T) =>
    zValidator('query', validator, (result, c) => {
       if (!result.success) {
@@ -23,6 +38,11 @@ const queryValidator = <T extends z.ZodTypeAny>(validator: T) =>
       }
    });
 
+/**
+ * Used to validate query request input with a default pagination validation on top
+ * @param extra
+ * @returns
+ */
 const paginationQueryValidator = <T extends z.ZodRawShape>(extra: T = {} as T) => {
    return queryValidator(
       z.object({
@@ -41,6 +61,11 @@ const paginationQueryValidator = <T extends z.ZodRawShape>(extra: T = {} as T) =
    );
 };
 
+/**
+ * used to validate query request information with pagination and search validation on top
+ * @param extra
+ * @returns
+ */
 const searchQueryValidator = <T extends z.ZodRawShape>(extra: T = {} as T) => {
    return queryValidator(
       z.object({
@@ -60,6 +85,11 @@ const searchQueryValidator = <T extends z.ZodRawShape>(extra: T = {} as T) => {
    );
 };
 
+/**
+ * Used to validate param request information with id validation on top
+ * @param extra
+ * @returns
+ */
 const idParamValidator = <T extends z.ZodRawShape>(extra: T = {} as T) => {
    return paramValidator(
       z.object({
