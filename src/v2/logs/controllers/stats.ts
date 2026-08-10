@@ -201,8 +201,8 @@ export default new Hono().get('/', async (c) => {
          verySlowRequests,
 
          requestsOverTime: requestsOverTime.map((bucket) => ({
-            timestamp: bucket.timestamp,
-            requests: Number(bucket.requests)
+            timestamp: bucket.hourBucket,
+            requests: Number(bucket._count.hourBucket)
          }))
       });
    } catch (err) {
