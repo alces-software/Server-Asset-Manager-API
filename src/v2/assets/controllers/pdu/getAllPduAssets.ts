@@ -10,7 +10,7 @@ export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
       // Get information from the request
       const { page, limit } = c.req.valid('query');
 
-      // Get all the storages
+      // Get all the pdus
       const [pdus, total] = await prisma.$transaction([
          prisma.asset.findMany({
             where: {

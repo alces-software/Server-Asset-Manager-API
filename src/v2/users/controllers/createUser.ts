@@ -41,15 +41,14 @@ export default new Hono().post(
          const { username, password, roleId } = c.req.valid('json');
 
          // Try and get a user from the database with the same username
-         const existingUser =
-            (await prisma.user.findUnique({
-               where: {
-                  username: username
-               },
-               select: {
-                  id: true
-               }
-            })) !== null;
+         const existingUser = await prisma.user.findUnique({
+            where: {
+               username: username
+            },
+            select: {
+               id: true
+            }
+         });
 
          // Check if a user already exists
          if (existingUser) {

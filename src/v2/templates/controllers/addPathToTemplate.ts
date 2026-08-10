@@ -41,15 +41,14 @@ export default new Hono().post(
          const body = c.req.valid('json');
 
          // Try and get the rack from the database
-         const existingTemplate =
-            (await prisma.template.findUnique({
-               where: {
-                  id
-               },
-               select: {
-                  id: true
-               }
-            })) !== null;
+         const existingTemplate = await prisma.template.findUnique({
+            where: {
+               id
+            },
+            select: {
+               id: true
+            }
+         });
 
          // Check if the rack exists
          if (!existingTemplate) {

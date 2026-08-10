@@ -16,15 +16,14 @@ export default new Hono().delete('/', idParamValidator({}), async (c) => {
       const { id } = c.req.valid('param');
 
       // Try and get the tag from the database
-      const existingTag =
-         (await prisma.tag.findUnique({
-            where: {
-               id
-            },
-            select: {
-               id: true
-            }
-         })) !== null;
+      const existingTag = await prisma.tag.findUnique({
+         where: {
+            id
+         },
+         select: {
+            id: true
+         }
+      });
 
       // Check if the tag exists
       if (!existingTag) {

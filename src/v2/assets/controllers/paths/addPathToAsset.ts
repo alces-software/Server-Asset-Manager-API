@@ -66,13 +66,11 @@ export default new Hono().post(
          if (!asset) {
             return notFoundError(c);
          }
+
          // Add all the new paths to the asset
          const newPaths = await prisma.asset.update({
             where: {
-               id,
-               server: {
-                  isNot: null
-               }
+               id
             },
             data: {
                paths: {

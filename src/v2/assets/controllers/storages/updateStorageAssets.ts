@@ -45,7 +45,7 @@ export default new Hono().patch(
          const { id } = c.req.valid('param');
          const body = c.req.valid('json');
 
-         // Try and get the server from the database
+         // Try and get the storage from the database
          const existingStorage = await prisma.asset.findUnique({
             where: {
                id,
@@ -63,7 +63,7 @@ export default new Hono().patch(
             }
          });
 
-         // Check if the server exists
+         // Check if the storage exists
          if (!existingStorage) {
             return notFoundError(c);
          }
@@ -82,7 +82,7 @@ export default new Hono().patch(
             }
          }
 
-         // Update the server in the database
+         // Update the storage in the database
          const updatedStorage = await prisma.asset.update({
             where: {
                id

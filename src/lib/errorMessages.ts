@@ -98,7 +98,7 @@ function invalidJsonError(c: Context) {
          error: 'BAD_REQUEST',
          message: 'The JSON sent to the server was invalid.'
       },
-      404
+      400
    );
 }
 

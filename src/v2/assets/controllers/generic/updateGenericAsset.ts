@@ -28,10 +28,6 @@ export default new Hono().patch(
                .number({ error: 'Group ID must be a number' })
                .int({ error: 'Group ID must be an integer' })
                .positive({ error: 'Group ID must be greater than 0' })
-               .optional(),
-            capacity: z
-               .number({ error: 'Capacity must be a number' })
-               .positive({ error: 'Capacity must be greater than 0' })
                .optional()
          })
          .refine((data) => Object.keys(data).length > 0, {
@@ -44,26 +40,30 @@ export default new Hono().patch(
          const { id } = c.req.valid('param');
          const body = c.req.valid('json');
 
-         // Try and get the ups from the database
-         const existingUps = await prisma.asset.findUnique({
+         // Try and get the asset from the database
+         const existingAsset = await prisma.asset.findUnique({
             where: {
                id,
+               storageType: {
+                  is: null
+               },
+               server: {
+                  is: null
+               },
                ups: {
-                  isNot: null
+                  is: null
+               },
+               pdu: {
+                  is: null
                }
             },
             include: {
-               ...assetInclude,
-               ups: {
-                  select: {
-                     capacity: true
-                  }
-               }
+               ...assetInclude
             }
          });
 
-         // Check if the ups exists
-         if (!existingUps) {
+         // Check if the server exists
+         if (!existingAsset) {
             return notFoundError(c);
          }
 
@@ -81,42 +81,24 @@ export default new Hono().patch(
             }
          }
 
-         // Update the ups in the database
-         const updatedUps = await prisma.asset.update({
+         // Update the asset in the database
+         const updatedAsset = await prisma.asset.update({
             where: {
                id
             },
             data: {
-               name: body.name ?? existingUps.name,
-               notes: body.notes ?? existingUps.notes,
-               storageId: body.storageId ?? existingUps.storageId,
-               position: body.position ?? existingUps.position,
-               groupId: body.groupId ?? existingUps.groupId,
-               ups: {
-                  update: {
-                     data: {
-                        capacity: body.capacity ?? existingUps.ups?.capacity
-                     }
-                  }
-               }
+               name: body.name ?? existingAsset.name,
+               notes: body.notes ?? existingAsset.notes,
+               storageId: body.storageId ?? existingAsset.storageId,
+               position: body.position ?? existingAsset.position,
+               groupId: body.groupId ?? existingAsset.groupId
             },
             include: {
-               ...assetInclude,
-               ups: {
-                  select: {
-                     capacity: true
-                  }
-               }
+               ...assetInclude
             }
          });
 
-         return c.json(
-            serializeAsset(
-               { ...updatedUps, jsonPosition: 0 },
-               { capacity: updatedUps.ups?.capacity }
-            ),
-            200
-         );
+         return c.json(serializeAsset({ ...updatedAsset, jsonPosition: 0 }), 200);
       } catch (err) {
          return internalServerError(c, err);
       }

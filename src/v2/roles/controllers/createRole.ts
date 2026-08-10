@@ -40,15 +40,14 @@ export default new Hono().post(
          const { name, permissions } = c.req.valid('json');
 
          // Try and get a role from the database with the same name
-         const existingRole =
-            (await prisma.role.findUnique({
-               where: {
-                  name
-               },
-               select: {
-                  id: true
-               }
-            })) !== null;
+         const existingRole = await prisma.role.findUnique({
+            where: {
+               name
+            },
+            select: {
+               id: true
+            }
+         });
 
          // Check if a role exists
          if (existingRole) {

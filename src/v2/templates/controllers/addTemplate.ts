@@ -45,15 +45,14 @@ export default new Hono().post(
          const { name, paths } = c.req.valid('json');
 
          // Try and get a template with the name
-         const existingTemplate =
-            (await prisma.template.findUnique({
-               where: {
-                  name
-               },
-               select: {
-                  id: true
-               }
-            })) !== null;
+         const existingTemplate = await prisma.template.findUnique({
+            where: {
+               name
+            },
+            select: {
+               id: true
+            }
+         });
 
          // Check if a template exists
          if (existingTemplate) {

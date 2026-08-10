@@ -45,7 +45,7 @@ export default new Hono().patch(
          const { id } = c.req.valid('param');
          const body = c.req.valid('json');
 
-         // Try and get the ups from the database
+         // Try and get the pdu from the database
          const existingPdu = await prisma.asset.findUnique({
             where: {
                id,
@@ -63,7 +63,7 @@ export default new Hono().patch(
             }
          });
 
-         // Check if the server exists
+         // Check if the pdu exists
          if (!existingPdu) {
             return notFoundError(c);
          }
@@ -82,7 +82,7 @@ export default new Hono().patch(
             }
          }
 
-         // Update the server in the database
+         // Update the pdu in the database
          const updatedPdu = await prisma.asset.update({
             where: {
                id

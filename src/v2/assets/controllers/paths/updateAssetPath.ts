@@ -39,7 +39,7 @@ export default new Hono().patch(
          const body = c.req.valid('json');
 
          // Try and get the asset from the database
-         const asset = await prisma.asset.findUnique({
+         const existingAsset = await prisma.asset.findUnique({
             where: {
                id
             },
@@ -62,12 +62,12 @@ export default new Hono().patch(
          });
 
          // Check if the asset exists
-         if (!asset) {
+         if (!existingAsset) {
             return notFoundError(c);
          }
 
          // Check that the path exists
-         if (!asset.paths[0]) {
+         if (!existingAsset.paths[0]) {
             return notFoundError(c);
          }
 
@@ -82,12 +82,12 @@ export default new Hono().patch(
                path: true
             },
             data: {
-               name: body.name ?? asset.paths[0].name,
-               path: body.path ?? asset.paths[0].path
+               name: body.name ?? existingAsset.paths[0].name,
+               path: body.path ?? existingAsset.paths[0].path
             }
          });
 
-         return c.json(serializePath(updatedPath, asset.json[0]?.rawJson), 200);
+         return c.json(serializePath(updatedPath, existingAsset.json[0]?.rawJson), 200);
       } catch (err) {
          return internalServerError(c, err);
       }
