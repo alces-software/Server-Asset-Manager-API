@@ -37,31 +37,41 @@ import getGenericAssetById from './controllers/generic/getGenericAssetById';
 import getAssetsByGroup from './controllers/group/getAssetsByGroup';
 import getAssetsByTags from './controllers/tags/getAssetsByTags';
 import getAssetsByStorage from './controllers/storages/getAssetsByStorage';
+import searchUpsAssets from './controllers/ups/searchUpsAssets';
+import searchStorageAssets from './controllers/storages/searchStorageAssets';
+import searchServerAssets from './controllers/servers/searchServerAssets';
+import searchPduAssets from './controllers/pdu/searchPduAssets';
+import searchGenericAssets from './controllers/generic/searchGenericAssets';
 
 export default new Hono()
    .route('/search', searchAssets)
 
+   .route('/servers/search', searchServerAssets)
    .route('/servers/:id', getServerAssetById)
    .route('/servers/:id', updateServerAsset)
    .route('/servers', createServerAsset)
    .route('/servers', getAllServerAssets)
 
+   .route('/storages/search', searchStorageAssets)
    .route('/storages/:id/assets', getAssetsByStorage)
    .route('/storages/:id', getStorageAssetById)
    .route('/storages/:id', updateStorageAssets)
    .route('/storages', createStorageAsset)
    .route('/storages', getAllStorageAssets)
 
+   .route('/ups/search', searchUpsAssets)
    .route('/ups/:id', getUpsAssetById)
    .route('/ups/:id', updateUpsAsset)
    .route('/ups', createUpsAsset)
    .route('/ups', getAllUpsAssets)
 
+   .route('/pdu/search', searchPduAssets)
    .route('/pdu/:id', getPduAssetById)
    .route('/pdu/:id', updatePduAsset)
    .route('/pdu', createPduAsset)
    .route('/pdu', getAllPduAssets)
 
+   .route('/generic/search', searchGenericAssets)
    .route('/generic/:id', getGenericAssetById)
    .route('/generic/:id', updateGenericAsset)
    .route('/generic', getAllGenericAssets)
