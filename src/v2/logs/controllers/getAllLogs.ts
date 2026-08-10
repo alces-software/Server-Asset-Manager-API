@@ -37,7 +37,7 @@ const logsQuery = {
 };
 
 import { prisma } from '../../../lib/prisma';
-import { internalServerError, notFoundError, forbiddenError } from '../../../lib/errorMessages';
+import { internalServerError } from '../../../lib/errorMessages';
 import { paginationQueryValidator } from '../../../lib/validators';
 
 export default new Hono().get('/', paginationQueryValidator(logsQuery), async (c) => {
