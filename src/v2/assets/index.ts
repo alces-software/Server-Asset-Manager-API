@@ -21,7 +21,7 @@ import getServerAssetById from './controllers/servers/getServerAssetById';
 import updateServerAsset from './controllers/servers/updateServerAsset';
 import updateStorageAssets from './controllers/storages/updateStorageAssets';
 import updateAsset from './controllers/updateAsset';
-import createAsset from './controllers/createAsset';
+import createGenericAsset from './controllers/generic/createGenericAsset';
 import removeTagsFromAsset from './controllers/tags/removeTagsFromAsset';
 import getUpsAssetById from './controllers/ups/getUpsAssetById';
 import updateUpsAsset from './controllers/ups/updateUpsAsset';
@@ -31,6 +31,7 @@ import getPduAssetById from './controllers/pdu/getPduAssetById';
 import updatePduAsset from './controllers/pdu/updatePduAsset';
 import createPduAsset from './controllers/pdu/createPduAsset';
 import getAllPduAssets from './controllers/pdu/getAllPduAssets';
+import getAllGenericAssets from './controllers/generic/getAllGenericAssets';
 
 export default new Hono()
    .route('/search', searchAssets)
@@ -55,6 +56,9 @@ export default new Hono()
    .route('/pdu', createPduAsset)
    .route('/pdu', getAllPduAssets)
 
+   .route('/generic', getAllGenericAssets)
+   .route('/generic', createGenericAsset)
+
    .route('/:id/paths/:pathId', deleteAssetPath)
    .route('/:id/paths', addPathToAsset)
    .route('/:id/paths', getAssetPaths)
@@ -71,5 +75,5 @@ export default new Hono()
    .route('/:id', deleteAsset)
    .route('/:id', updateAsset)
    .route('/', deleteAsset)
-   .route('/', getAllAssets)
-   .route('/', createAsset);
+   .route('/', getAllAssets);
+

@@ -842,7 +842,7 @@ paths:
       patch:
          tags: [Assets]
          operationId: updateGenericAsset
-         summary: Update a geneic asset.
+         summary: Update a generic asset.
          parameters:
             - $ref: "#/components/parameters/AssetId"
          requestBody:
@@ -2398,6 +2398,11 @@ components:
                type: integer
                format: int32
                nullable: true
+
+      StorageCreate:
+         allOf:
+            - $ref: "#/components/schemas/AssetCreate"
+            - $ref: "#/components/schemas/StorageProperties"
 
       StorageAsset:
          allOf:

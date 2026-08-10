@@ -1,15 +1,15 @@
 import { Hono } from 'hono';
 
-import { prisma } from '../../../lib/prisma';
+import { prisma } from '../../../../lib/prisma';
 import {
    existingResourceError,
    forbiddenError,
    internalServerError
-} from '../../../lib/errorMessages';
-import { validatePermissions } from '../../../lib/util';
-import { assetInclude, buildBaseAssetSchema, serializeAsset } from '../lib/util';
-import { assetSchema } from '../lib/validator';
-import { bodyValidator } from '../../../lib/validators';
+} from '../../../../lib/errorMessages';
+import { validatePermissions } from '../../../../lib/util';
+import { assetInclude, buildBaseAssetSchema, serializeAsset } from '../../lib/util';
+import { assetSchema } from '../../lib/validator';
+import { bodyValidator } from '../../../../lib/validators';
 
 export default new Hono().post('/', bodyValidator(assetSchema), async (c) => {
    try {
