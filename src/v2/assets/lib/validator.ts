@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+/**
+ * The default asset creation input schema
+ */
 export const assetSchema = z.object({
    name: z
       .string({ error: 'Name must be a string' })
