@@ -1,5 +1,4 @@
 import type { Context } from 'hono';
-import { prisma } from './prisma';
 
 /**
  * Retrieves the data from a JSON object using a path
