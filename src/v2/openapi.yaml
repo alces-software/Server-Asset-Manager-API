@@ -935,10 +935,10 @@ paths:
                   application/json:
                      schema:
                         $ref: "#/components/schemas/AssetBase"
-            "404":
-               description: Asset not found.
             "400":
                $ref: "#/components/responses/BadRequest"
+            "404":
+               $ref: "#/components/responses/NotFound"
             "401":
                $ref: "#/components/responses/Unauthorised"
             "403":
@@ -961,6 +961,10 @@ paths:
                   application/json:
                      schema:
                         $ref: "#/components/schemas/GroupsPage"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
       post:
          tags: [Groups]
@@ -984,8 +988,12 @@ paths:
                   application/json:
                      schema:
                         $ref: "#/components/schemas/AssetGroup"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
             "404":
-               description: Group not found.
+               $ref: "#/components/responses/NotFound"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
       patch:
          tags: [Groups]
@@ -996,6 +1004,12 @@ paths:
          responses:
             "200":
                description: Group updated.
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
       delete:
          tags: [Groups]
@@ -1006,6 +1020,12 @@ paths:
          responses:
             "204":
                description: Group deleted.
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
    /groups/search:
       get:
@@ -1045,6 +1065,10 @@ paths:
                   application/json:
                      schema:
                         $ref: "#/components/schemas/TagsPage"
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
       post:
          tags: [Tags]
@@ -1053,6 +1077,12 @@ paths:
          responses:
             "201":
                description: Tag created.
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
    /tags/{tagId}:
       get:
@@ -1064,6 +1094,10 @@ paths:
          responses:
             "200":
                description: Tag details.
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
       patch:
          tags: [Tags]
@@ -1074,6 +1108,12 @@ paths:
          responses:
             "200":
                description: Tag updated.
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
       delete:
          tags: [Tags]
@@ -1084,6 +1124,12 @@ paths:
          responses:
             "204":
                description: Tag deleted.
+            "401":
+               $ref: "#/components/responses/Unauthorised"
+            "403":
+               $ref: "#/components/responses/Forbidden"
+            "500":
+               $ref: "#/components/responses/InternalServerError"
 
    /tags/search:
       get:
