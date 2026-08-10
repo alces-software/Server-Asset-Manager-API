@@ -24,9 +24,9 @@ app.use(
 );
 app.use('*', trimTrailingSlash());
 app.use('*', compress());
+app.use('*', logRequests);
 app.use('/api/*', validateJWT);
 app.use('/api/*', getUserFromJWT);
-app.use('*', logRequests);
 
 // Load endpoints
 app.route('/api/v1', v1);
