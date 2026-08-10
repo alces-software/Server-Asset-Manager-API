@@ -95,7 +95,7 @@ function serializePath(
       id: path.id,
       name: path.name,
       path: path.path,
-      value: getValueFromJson(json ?? '{}', path.path)
+      value: getValueFromJson(JSON.parse(json ?? ''), path.path)
    };
 }
 
