@@ -1,8 +1,13 @@
 import { Hono } from 'hono';
 
 import { prisma } from '../../../../lib/prisma';
-import { forbiddenError, internalServerError, notFoundError } from '../../../../lib/errorMessages';
-import { assetInclude, serializeAsset } from '../../lib/util';
+import {
+   existingResourceError,
+   forbiddenError,
+   internalServerError,
+   notFoundError
+} from '../../../../lib/errorMessages';
+import { assetInclude, canMoveStorage, serializeAsset } from '../../lib/util';
 import { bodyValidator, idParamValidator } from '../../../../lib/validators';
 import { z } from 'zod';
 import { validatePermissions } from '../../../../lib/util';
@@ -85,6 +90,14 @@ export default new Hono().patch(
             // Check if the storage exists
             if (!existingStorage) {
                return notFoundError(c);
+            }
+
+            // Make sure the storages wont make a circle
+            const canMove = await canMoveStorage(id, body.storageId);
+
+            // Give an error if it cant move
+            if (!canMove) {
+               return existingResourceError(c);
             }
          }
 

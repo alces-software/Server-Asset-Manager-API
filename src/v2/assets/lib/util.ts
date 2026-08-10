@@ -1,3 +1,4 @@
+import { prisma } from '../../../lib/prisma';
 import { getValueFromJson } from '../../../lib/util';
 
 function buildBaseAssetSchema(body: {
@@ -129,4 +130,48 @@ const assetInclude = {
    }
 };
 
-export { buildBaseAssetSchema, assetInclude, serializeAsset, serializePath };
+async function canMoveStorage(storageId: number, newParentId: number): Promise<boolean> {
+   let current = await prisma.storage.findUnique({
+      where: { id: newParentId },
+      include: {
+         asset: {
+            select: {
+               storageId: true
+            }
+         }
+      }
+   });
+
+   const visited = new Set<number>();
+
+   while (current) {
+      if (current.id === storageId) {
+         return false;
+      }
+
+      if (visited.has(current.id)) {
+         return false;
+      }
+
+      visited.add(current.id);
+
+      if (!current.asset.storageId) {
+         break;
+      }
+
+      current = await prisma.storage.findUnique({
+         where: { id: current.asset.storageId },
+         include: {
+            asset: {
+               select: {
+                  storageId: true
+               }
+            }
+         }
+      });
+   }
+
+   return true;
+}
+
+export { buildBaseAssetSchema, assetInclude, serializeAsset, serializePath, canMoveStorage };
