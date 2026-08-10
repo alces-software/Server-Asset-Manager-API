@@ -12,9 +12,9 @@ export default new Hono().get(
       try {
          // Get request information
          const { id } = c.req.valid('param');
-
          const { page, limit } = c.req.valid('query');
 
+         // Try and get the asset from the database
          const asset = await prisma.asset.findUnique({
             where: {
                id
@@ -23,6 +23,10 @@ export default new Hono().get(
                json: {
                   orderBy: {
                      uploadDate: 'desc'
+                  },
+                  select: {
+                     id: true,
+                     rawJson: true
                   }
                },
                _count: {
@@ -33,30 +37,18 @@ export default new Hono().get(
             }
          });
 
+         // Check if the asset exists
          if (!asset) {
             return notFoundError(c);
          }
 
-         const [jsons, total] = await prisma.$transaction([
-            prisma.assetJson.findMany({
-               where: {
-                  assetId: id
-               },
-               select: {
-                  id: true,
-                  rawJson: true
-               }
-            }),
-
-            prisma.server.count()
-         ]);
          return c.json(
             {
                page,
                limit,
-               total,
-               totalPage: Math.ceil(total / limit),
-               history: jsons.map((json) => ({
+               total: asset._count.json,
+               totalPage: Math.ceil(asset._count.json / limit),
+               history: asset.json.map((json) => ({
                   id: json.id,
                   rawJson: json.rawJson
                }))
