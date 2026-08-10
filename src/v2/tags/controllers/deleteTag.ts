@@ -8,7 +8,7 @@ import { idParamValidator } from '../../../lib/validators';
 export default new Hono().delete('/', idParamValidator({}), async (c) => {
    try {
       // Check user permissions
-      if (!validatePermissions(['tag.delete'], c)) {
+      if (!validatePermissions(['tag.read', 'tag.delete'], c)) {
          return forbiddenError(c);
       }
 

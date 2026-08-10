@@ -32,7 +32,7 @@ export default new Hono().post(
    async (c) => {
       try {
          // Check users permissions
-         if (!validatePermissions(['template.read', 'template.write'], c)) {
+         if (!validatePermissions(['template.read', 'template.update'], c)) {
             return forbiddenError(c);
          }
 

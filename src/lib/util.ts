@@ -54,23 +54,30 @@ function isValidJson(value: string) {
  */
 type Permission =
    | 'template.read'
-   | 'template.write'
+   | 'template.create'
+   | 'template.update'
    | 'template.delete'
+   | 'user.read'
    | 'user.create'
    | 'user.update'
    | 'user.delete'
+   | 'role.read'
    | 'role.create'
    | 'role.update'
    | 'role.delete'
+   | 'tag.read'
    | 'tag.create'
    | 'tag.update'
    | 'tag.delete'
+   | 'group.read'
    | 'group.create'
    | 'group.update'
    | 'group.delete'
+   | 'asset.read'
    | 'asset.create'
    | 'asset.update'
-   | 'asset.delete';
+   | 'asset.delete'
+   | 'log.read';
 
 /**
  * Checks whether the user has the required permissions

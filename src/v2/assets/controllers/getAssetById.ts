@@ -1,12 +1,18 @@
 import { Hono } from 'hono';
 
 import { prisma } from '../../../lib/prisma';
-import { internalServerError, notFoundError } from '../../../lib/errorMessages';
+import { forbiddenError, internalServerError, notFoundError } from '../../../lib/errorMessages';
 import { assetInclude, serializeAsset } from '../lib/util';
 import { idParamValidator } from '../../../lib/validators';
+import { validatePermissions } from '../../../lib/util';
 
 export default new Hono().get('/', idParamValidator({}), async (c) => {
    try {
+      // Check user permissions
+      if (!validatePermissions(['asset.read'], c)) {
+         return forbiddenError(c);
+      }
+
       // Get request information
       const { id } = c.req.valid('param');
 

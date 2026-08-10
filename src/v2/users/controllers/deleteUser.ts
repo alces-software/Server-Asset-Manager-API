@@ -7,6 +7,12 @@ import { idParamValidator } from '../../../lib/validators';
 
 export default new Hono().delete('/', idParamValidator({}), async (c) => {
    try {
+      // Check user permissions
+      if (!validatePermissions(['user.read', 'user.delete'], c)) {
+         return forbiddenError(c);
+      }
+
+      // Get the request information
       const { id } = c.req.valid('param');
       const auth = c.get('user');
 

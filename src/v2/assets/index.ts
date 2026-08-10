@@ -34,8 +34,8 @@ import getAllPduAssets from './controllers/pdu/getAllPduAssets';
 import getAllGenericAssets from './controllers/generic/getAllGenericAssets';
 import updateGenericAsset from './controllers/generic/updateGenericAsset';
 import getGenericAssetById from './controllers/generic/getGenericAssetById';
-import getAssetsByGroup from './controllers/getAssetsByGroup';
-import getAssetsByTags from './controllers/getAssetsByTags';
+import getAssetsByGroup from './controllers/group/getAssetsByGroup';
+import getAssetsByTags from './controllers/tags/getAssetsByTags';
 import getAssetsByStorage from './controllers/storages/getAssetsByStorage';
 
 export default new Hono()
