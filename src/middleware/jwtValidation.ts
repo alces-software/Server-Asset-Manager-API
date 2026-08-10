@@ -27,7 +27,7 @@ async function validateJWT(c: Context, next: Next) {
          secret: process.env.JWT_SECRET!,
          alg: 'HS256'
       })(c, next);
-   } catch (err) {
+   } catch {
       return unauthorisedError(c);
    }
 }
