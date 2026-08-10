@@ -22,10 +22,14 @@ async function validateJWT(c: Context, next: Next) {
       return next();
    }
 
-   await jwt({
-      secret: process.env.JWT_SECRET!,
-      alg: 'HS256'
-   })(c, next);
+   try {
+      await jwt({
+         secret: process.env.JWT_SECRET!,
+         alg: 'HS256'
+      })(c, next);
+   } catch (err) {
+      return unauthorisedError(c);
+   }
 }
 
 /**
@@ -40,6 +44,10 @@ async function getUserFromJWT(c: Context, next: Next) {
    }
 
    const payload = c.get('jwtPayload');
+
+   if (!payload) {
+      return unauthorisedError(c);
+   }
 
    if (payload.type === 'refresh') {
       return unauthorisedError(c);

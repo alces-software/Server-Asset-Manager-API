@@ -34,10 +34,10 @@ app.route('/api/v2', v2);
 
 // Handle uncaught errors
 app.onError((err, c) => {
-   console.log(c);
-   if (err?.status === 401) {
-      return unauthorisedError(c);
-   }
+   // console.log(c.res.status);
+   // if (err?.status === 401) {
+   //    return unauthorisedError(c);
+   // }
 
    return internalServerError(c, err);
 });
