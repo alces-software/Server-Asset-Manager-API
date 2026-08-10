@@ -42,6 +42,7 @@ function serializeAsset(
             name: string;
          };
       } | null;
+      notes: string | null;
       group: { id: number; name: string } | null;
       tags: { id: number; name: string }[];
       paths: { id: number; name: string; path: string }[];
@@ -54,6 +55,7 @@ function serializeAsset(
    return {
       id: asset.id,
       name: asset.name,
+      notes: asset.notes,
       ...extra,
       storage: {
          id: asset.storageId,

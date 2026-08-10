@@ -1,10 +1,7 @@
 import { Hono } from 'hono';
 
 import { prisma } from '../../../lib/prisma';
-import {
-   internalServerError,
-   notFoundError
-} from '../../../lib/errorMessages';
+import { internalServerError, notFoundError } from '../../../lib/errorMessages';
 import { idParamValidator } from '../../../lib/validators';
 
 export default new Hono().get('/', idParamValidator({}), async (c) => {

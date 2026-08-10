@@ -3,11 +3,7 @@ import { z } from 'zod';
 
 import { prisma } from '../../../lib/prisma';
 import { getValueFromJson, validatePermissions } from '../../../lib/util';
-import {
-   forbiddenError,
-   internalServerError,
-   notFoundError
-} from '../../../lib/errorMessages';
+import { forbiddenError, internalServerError, notFoundError } from '../../../lib/errorMessages';
 import { bodyValidator, idParamValidator } from '../../../lib/validators';
 
 export default new Hono().patch(

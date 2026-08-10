@@ -1,9 +1,9 @@
-import { Context, Next } from "hono";
+import { Context, Next } from 'hono';
 
 /**
  * Log the information about the HTTP requests sent to the API
- * @param c 
- * @param next 
+ * @param c
+ * @param next
  */
 async function logRequests(c: Context, next: Next) {
    const start = Date.now();
@@ -23,4 +23,4 @@ async function logRequests(c: Context, next: Next) {
    );
 }
 
-export { logRequests }
+export { logRequests };

@@ -1,7 +1,7 @@
-import { Context, Next } from "hono";
-import { jwt } from "hono/jwt";
-import { notFoundError, unauthorisedError } from "../lib/errorMessages";
-import { prisma } from "../lib/prisma";
+import { Context, Next } from 'hono';
+import { jwt } from 'hono/jwt';
+import { notFoundError, unauthorisedError } from '../lib/errorMessages';
+import { prisma } from '../lib/prisma';
 
 // The public routes that don't need validation
 const publicRoutes = new Set([
@@ -13,9 +13,9 @@ const publicRoutes = new Set([
 
 /**
  * Validate whether the JWT token is valid
- * @param c 
- * @param next 
- * @returns 
+ * @param c
+ * @param next
+ * @returns
  */
 async function validateJWT(c: Context, next: Next) {
    if (publicRoutes.has(c.req.path)) {
@@ -30,9 +30,9 @@ async function validateJWT(c: Context, next: Next) {
 
 /**
  * Uses the JWT token to get the users information and store it in the request
- * @param c 
- * @param next 
- * @returns 
+ * @param c
+ * @param next
+ * @returns
  */
 async function getUserFromJWT(c: Context, next: Next) {
    if (publicRoutes.has(c.req.path)) {
@@ -71,4 +71,4 @@ async function getUserFromJWT(c: Context, next: Next) {
    await next();
 }
 
-export { validateJWT, getUserFromJWT }
+export { validateJWT, getUserFromJWT };
