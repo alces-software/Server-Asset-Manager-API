@@ -31,15 +31,14 @@ export default new Hono().post(
          const body = c.req.valid('json');
 
          // Try and get the group from the database
-         const existingGroup =
-            (await prisma.group.findUnique({
-               where: {
-                  name: body.name
-               },
-               select: {
-                  id: true
-               }
-            })) !== null;
+         const existingGroup = await prisma.group.findUnique({
+            where: {
+               name: body.name
+            },
+            select: {
+               id: true
+            }
+         });
 
          // Check if a group exists
          if (existingGroup) {

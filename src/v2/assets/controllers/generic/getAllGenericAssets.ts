@@ -53,9 +53,7 @@ export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
       return c.json(
          {
             servers: servers.map((server) => ({
-               ...serializeAsset(
-                  { ...server, jsonPosition: 0 }
-               )
+               ...serializeAsset({ ...server, jsonPosition: 0 })
             })),
             page,
             limit,

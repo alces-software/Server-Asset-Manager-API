@@ -16,15 +16,14 @@ export default new Hono().delete('/', idParamValidator({}), async (c) => {
       const { id } = c.req.valid('param');
 
       // Try and get the group from the database
-      const existingGroup =
-         (await prisma.group.findUnique({
-            where: {
-               id
-            },
-            select: {
-               id: true
-            }
-         })) !== null;
+      const existingGroup = await prisma.group.findUnique({
+         where: {
+            id
+         },
+         select: {
+            id: true
+         }
+      });
 
       // Check if a group exists
       if (!existingGroup) {

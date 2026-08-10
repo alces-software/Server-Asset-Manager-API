@@ -76,4 +76,3 @@ export default new Hono()
    .route('/:id', updateAsset)
    .route('/', deleteAsset)
    .route('/', getAllAssets);
-

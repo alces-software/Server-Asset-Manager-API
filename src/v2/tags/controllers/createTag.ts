@@ -31,15 +31,14 @@ export default new Hono().post(
          const body = c.req.valid('json');
 
          // Try and get the tag from the database
-         const existingTag =
-            (await prisma.tag.findUnique({
-               where: {
-                  name: body.name
-               },
-               select: {
-                  id: true
-               }
-            })) !== null;
+         const existingTag = await prisma.tag.findUnique({
+            where: {
+               name: body.name
+            },
+            select: {
+               id: true
+            }
+         });
 
          // Check if a tag exists
          if (existingTag) {

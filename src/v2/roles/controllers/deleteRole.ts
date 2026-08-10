@@ -16,15 +16,14 @@ export default new Hono().delete('/', idParamValidator({}), async (c) => {
       const { id } = c.req.valid('param');
 
       // try and get the role from the database
-      const role =
-         (await prisma.role.findUnique({
-            where: {
-               id
-            },
-            select: {
-               id: true
-            }
-         })) !== null;
+      const role = await prisma.role.findUnique({
+         where: {
+            id
+         },
+         select: {
+            id: true
+         }
+      });
 
       // Check if the role exists
       if (!role) {
