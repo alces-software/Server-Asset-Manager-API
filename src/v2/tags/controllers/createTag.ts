@@ -23,7 +23,7 @@ export default new Hono().post(
    async (c) => {
       try {
          // Check user permissions
-         if (!validatePermissions(['tag.create'], c)) {
+         if (!validatePermissions(['tag.read', 'tag.create'], c)) {
             return forbiddenError(c);
          }
 

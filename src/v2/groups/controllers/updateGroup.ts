@@ -20,7 +20,7 @@ export default new Hono().patch(
    async (c) => {
       try {
          // Check user permissions
-         if (!validatePermissions(['group.update'], c)) {
+         if (!validatePermissions(['group.read', 'group.update'], c)) {
             return forbiddenError(c);
          }
 

@@ -1,10 +1,11 @@
 import { Hono } from 'hono';
 
 import { prisma } from '../../../lib/prisma';
-import { internalServerError } from '../../../lib/errorMessages';
+import { forbiddenError, internalServerError } from '../../../lib/errorMessages';
 import { assetInclude, serializeAsset } from '../lib/util';
 import { paginationQueryValidator } from '../../../lib/validators';
 import { z } from 'zod';
+import { validatePermissions } from '../../../lib/util';
 
 export default new Hono().get(
    '/',
@@ -24,6 +25,11 @@ export default new Hono().get(
    }),
    async (c) => {
       try {
+         // Check user permissions
+         if (!validatePermissions(['asset.read'], c)) {
+            return forbiddenError(c);
+         }
+
          // Get request information
          const { page, limit, tags } = c.req.valid('query');
 

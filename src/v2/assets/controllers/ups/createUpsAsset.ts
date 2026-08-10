@@ -25,7 +25,7 @@ export default new Hono().post(
    async (c) => {
       try {
          // Check user permissions
-         if (!validatePermissions(['asset.create'], c)) {
+         if (!validatePermissions(['asset.read', 'asset.create'], c)) {
             return forbiddenError(c);
          }
 

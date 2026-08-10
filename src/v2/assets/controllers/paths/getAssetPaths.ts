@@ -9,7 +9,7 @@ import { serializePath } from '../../lib/util';
 export default new Hono().get('/', idParamValidator({}), async (c) => {
    try {
       // Check user permissions
-      if (!validatePermissions(['asset.delete'], c)) {
+      if (!validatePermissions(['asset.read', 'asset.update'], c)) {
          return forbiddenError(c);
       }
 

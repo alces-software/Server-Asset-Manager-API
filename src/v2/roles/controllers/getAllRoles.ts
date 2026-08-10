@@ -1,11 +1,17 @@
 import { Hono } from 'hono';
 
 import { prisma } from '../../../lib/prisma';
-import { internalServerError } from '../../../lib/errorMessages';
+import { forbiddenError, internalServerError } from '../../../lib/errorMessages';
 import { paginationQueryValidator } from '../../../lib/validators';
+import { validatePermissions } from '../../../lib/util';
 
 export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
    try {
+      // Check users permissions
+      if (!validatePermissions(['role.read'], c)) {
+         return forbiddenError(c);
+      }
+
       // Get request information
       const { page, limit } = c.req.valid('query');
 

@@ -8,7 +8,7 @@ import { idParamValidator } from '../../../lib/validators';
 export default new Hono().delete('/', idParamValidator({}), async (c) => {
    try {
       // Check user permissions
-      if (!validatePermissions(['group.delete'], c)) {
+      if (!validatePermissions(['group.read', 'group.delete'], c)) {
          return forbiddenError(c);
       }
 
