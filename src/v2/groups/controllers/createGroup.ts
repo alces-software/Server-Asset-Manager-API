@@ -5,6 +5,7 @@ import { prisma } from '../../../lib/prisma';
 import {
    existingResourceError,
    forbiddenError,
+   notFoundError,
    internalServerError
 } from '../../../lib/errorMessages';
 import { validatePermissions } from '../../../lib/util';
