@@ -36,6 +36,7 @@ import updateGenericAsset from './controllers/generic/updateGenericAsset';
 import getGenericAssetById from './controllers/generic/getGenericAssetById';
 import getAssetsByGroup from './controllers/getAssetsByGroup';
 import getAssetsByTags from './controllers/getAssetsByTags';
+import getAssetsByStorage from './controllers/storages/getAssetsByStorage';
 
 export default new Hono()
    .route('/search', searchAssets)
@@ -45,6 +46,7 @@ export default new Hono()
    .route('/servers', createServerAsset)
    .route('/servers', getAllServerAssets)
 
+   .route('/storages/:id/assets', getAssetsByStorage)
    .route('/storages/:id', getStorageAssetById)
    .route('/storages/:id', updateStorageAssets)
    .route('/storages', createStorageAsset)
