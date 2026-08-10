@@ -1,10 +1,15 @@
 import { Hono } from 'hono';
 
-import { internalServerError } from '../../../lib/errorMessages';
+import { forbiddenError, internalServerError } from '../../../lib/errorMessages';
 import { prisma } from '../../../lib/prisma';
+import { validatePermissions } from '../../../lib/util';
 
 export default new Hono().get('/', async (c) => {
    try {
+      // Check user permissions
+      if (!validatePermissions(['log.read'], c)) {
+         return forbiddenError(c);
+      }
       const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
       const [totalRequests, recentRequests, errors, averageDuration, endpointStats] =

@@ -2183,6 +2183,25 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/InternalServerError"
+
+  /api/v2/logs/stats:
+    get:
+      tags:
+        - Logs
+      operationId: showStats
+      summary: Show request stats
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stats"
+        "401":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -2698,6 +2717,72 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/User"
+    Stats:
+      type: object
+      required:
+        - totalRequests
+        - last24Hours
+        - endpoints
+      properties:
+        totalRequests:
+          type: integer
+          format: int64
+          description: Total number of requests logged.
+
+        last24Hours:
+          type: object
+          required:
+            - requests
+            - errors
+            - errorRate
+            - averageDurationMs
+          properties:
+            requests:
+              type: integer
+              format: int64
+              description: Number of requests in the last 24 hours.
+
+            errors:
+              type: integer
+              format: int64
+              description: Number of 5xx responses in the last 24 hours.
+
+            errorRate:
+              type: number
+              format: double
+              description: Percentage of requests resulting in a 5xx response.
+
+            averageDurationMs:
+              type: number
+              format: double
+              description: Average request duration in milliseconds.
+
+        endpoints:
+          type: array
+          items:
+            $ref: "#/components/schemas/EndpointStats"
+
+    EndpointStats:
+      type: object
+      required:
+        - endpoint
+        - requests
+        - averageDurationMs
+      properties:
+        endpoint:
+          type: string
+          description: Request endpoint.
+
+        requests:
+          type: integer
+          format: int64
+          description: Number of requests to this endpoint.
+
+        averageDurationMs:
+          type: number
+          format: double
+          description: Average request duration in milliseconds.
+
     AssetBase:
       type: object
       required:
