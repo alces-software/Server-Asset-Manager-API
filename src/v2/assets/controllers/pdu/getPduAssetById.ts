@@ -10,7 +10,7 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
       // Get request information
       const { id } = c.req.valid('param');
 
-      // Try and get the ups from the asset from
+      // Try and get the pdu from the asset from
       const pdu = await prisma.asset.findUnique({
          where: {
             id,
@@ -28,7 +28,7 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
          }
       });
 
-      // Check if the storage exists
+      // Check if the pdu exists
       if (!pdu) {
          return notFoundError(c);
       }

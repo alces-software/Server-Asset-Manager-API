@@ -32,6 +32,8 @@ import updatePduAsset from './controllers/pdu/updatePduAsset';
 import createPduAsset from './controllers/pdu/createPduAsset';
 import getAllPduAssets from './controllers/pdu/getAllPduAssets';
 import getAllGenericAssets from './controllers/generic/getAllGenericAssets';
+import updateGenericAsset from './controllers/generic/updateGenericAsset';
+import getGenericAssetById from './controllers/generic/getGenericAssetById';
 
 export default new Hono()
    .route('/search', searchAssets)
@@ -56,6 +58,8 @@ export default new Hono()
    .route('/pdu', createPduAsset)
    .route('/pdu', getAllPduAssets)
 
+   .route('/generic/:id', getGenericAssetById)
+   .route('/generic/:id', updateGenericAsset)
    .route('/generic', getAllGenericAssets)
    .route('/generic', createGenericAsset)
 

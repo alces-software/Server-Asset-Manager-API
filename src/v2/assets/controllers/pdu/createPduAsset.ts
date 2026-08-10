@@ -33,7 +33,7 @@ export default new Hono().post(
          // Get request information
          const body = c.req.valid('json');
 
-         // Try and get the ups asset from the database
+         // Try and get the pdu asset from the database
          const existingPdu = await prisma.asset.findFirst({
             where: {
                name: body.name,
@@ -46,12 +46,12 @@ export default new Hono().post(
             }
          });
 
-         // Check if a ups exists
+         // Check if a pdu exists
          if (existingPdu) {
             return existingResourceError(c);
          }
 
-         // Add the new ups to the database
+         // Add the new pdu to the database
          const newPdu = await prisma.asset.create({
             data: {
                ...buildBaseAssetSchema(body),

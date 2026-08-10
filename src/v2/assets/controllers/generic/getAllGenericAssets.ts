@@ -11,7 +11,7 @@ export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
       const { page, limit } = c.req.valid('query');
 
       // Get all the generic assets from the database
-      const [servers, total] = await prisma.$transaction([
+      const [assets, total] = await prisma.$transaction([
          prisma.asset.findMany({
             where: {
                storageType: {
@@ -52,8 +52,8 @@ export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
 
       return c.json(
          {
-            servers: servers.map((server) => ({
-               ...serializeAsset({ ...server, jsonPosition: 0 })
+            servers: assets.map((asset) => ({
+               ...serializeAsset({ ...asset, jsonPosition: 0 })
             })),
             page,
             limit,
