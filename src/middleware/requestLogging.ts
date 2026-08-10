@@ -1,6 +1,12 @@
 import { Context, Next } from 'hono';
 import { prisma } from '../lib/prisma';
 
+/**
+ * Logs the requests that are sent to the api
+ * @param c
+ * @param next
+ * @returns
+ */
 async function logRequests(c: Context, next: Next) {
    if (!c.req.path.startsWith('/api/')) {
       return next();
