@@ -115,7 +115,8 @@ export default new Hono().get('/', async (c) => {
                   gte: since
                },
                durationMs: {
-                  gt: 500
+                  gt: 500,
+                  lte: 1000
                }
             }
          }),
