@@ -5,10 +5,10 @@ import { cors } from 'hono/cors';
 import { serve } from '@hono/node-server';
 import { compress } from 'hono/compress';
 import { trimTrailingSlash } from 'hono/trailing-slash';
-import { jwt } from 'hono/jwt';
 
-import { internalServerError, notFoundError, unauthorisedError } from './lib/errorMessages';
-import { prisma } from './lib/prisma';
+import { internalServerError, unauthorisedError } from './lib/errorMessages';
+import { getUserFromJWT, validateJWT } from './middleware/jwtValidation';
+import { logRequests } from './middleware/requestLogging';
 
 import v1 from './v1';
 import v2 from './v2';
@@ -22,83 +22,24 @@ app.use(
       allowMethods: ['POST', 'GET', 'DELETE', 'PATCH', 'PUT', 'OPTIONS']
    })
 );
-
-app.use('*', async (c, next) => {
-   const start = Date.now();
-
-   await next();
-
-   const duration = Date.now() - start;
-   const user = c.get('user') || { username: 'Guest' };
-
-   const time = new Date().toLocaleTimeString('en-GB', {
-      hour: '2-digit',
-      minute: '2-digit'
-   });
-
-   console.log(
-      `${time} - ${user.username}: ${c.req.method} ${c.req.path} ${c.res.status} - ${duration}ms`
-   );
-});
-
 app.use('*', trimTrailingSlash());
 app.use('*', compress());
+app.use('/api/*', validateJWT);
+app.use('/api/*', getUserFromJWT);
+app.use('*', logRequests);
 
-// Check JWT token is valid
-const publicRoutes = new Set([
-   '/api/v1/users/login',
-   '/api/v1/users/refresh',
-   '/api/v2/users/login',
-   '/api/v2/users/refresh'
-]);
+// Load endpoints
+app.route('/api/v1', v1);
+app.route('/api/v2', v2);
 
-app.use('/api/*', async (c, next) => {
-   if (publicRoutes.has(c.req.path)) {
-      return next();
-   }
-
-   await jwt({
-      secret: process.env.JWT_SECRET!,
-      alg: 'HS256'
-   })(c, next);
-});
-
-// Get user information is JWT token is valid
-app.use('/api/*', async (c, next) => {
-   if (publicRoutes.has(c.req.path)) {
-      return next();
-   }
-
-   const payload = c.get('jwtPayload');
-
-   if (payload.type === 'refresh') {
+// Handle uncaught errors
+app.onError((err, c) => {
+   console.log(c.res?.status);
+   if (c.res?.status === 401) {
       return unauthorisedError(c);
    }
 
-   const user = await prisma.user.findUnique({
-      where: {
-         id: Number(payload.sub)
-      },
-      include: {
-         role: {
-            include: {
-               permissions: {
-                  select: {
-                     name: true
-                  }
-               }
-            }
-         }
-      }
-   });
-
-   if (!user) {
-      return notFoundError(c);
-   }
-
-   c.set('user', user);
-
-   await next();
+   return internalServerError(c, err);
 });
 
 // 404 Error
@@ -111,20 +52,6 @@ app.notFound((c) =>
       404
    )
 );
-
-// Handle uncaught errors
-app.onError((err, c) => {
-   console.log(c.res?.status);
-   if (c.res?.status === 401) {
-      return unauthorisedError(c);
-   }
-
-   return internalServerError(c, err);
-});
-
-// Load endpoints
-app.route('/api/v1', v1);
-app.route('/api/v2', v2);
 
 // Start listening to port
 serve({
