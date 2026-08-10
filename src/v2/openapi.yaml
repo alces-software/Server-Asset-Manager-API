@@ -48,6 +48,125 @@ paths:
           $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
+  /assets/generic/search:
+    get:
+      tags:
+        - Assets
+      operationId: searchGenericAssets
+      summary: Search generic assets by ID or name
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Matching generic assets
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssetsPage"
+        "401":
+          $ref: "#/components/responses/Unauthorised"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /assets/servers/search:
+    get:
+      tags:
+        - Assets
+      operationId: searchServers
+      summary: Search servers by ID or name
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Matching servers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServersPage"
+        "401":
+          $ref: "#/components/responses/Unauthorised"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /assets/pdu/search:
+    get:
+      tags:
+        - Assets
+      operationId: searchPdus
+      summary: Search PDUs by ID or name
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Matching PDUs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PdusPage"
+        "401":
+          $ref: "#/components/responses/Unauthorised"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /assets/storages/search:
+    get:
+      tags:
+        - Assets
+      operationId: searchStorages
+      summary: Search storage devices by ID or name
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Matching storage devices
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoragePage"
+        "401":
+          $ref: "#/components/responses/Unauthorised"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /assets/ups/search:
+    get:
+      tags:
+        - Assets
+      operationId: searchUps
+      summary: Search UPS units by ID or name
+      parameters:
+        - $ref: "#/components/parameters/Query"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Matching UPS units
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpsPage"
+        "401":
+          $ref: "#/components/responses/Unauthorised"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /assets/search:
     get:
       tags:
@@ -845,6 +964,7 @@ paths:
       operationId: listAssetsInStorage
       summary: List all assets within a storage device.
       parameters:
+        - $ref: "#/components/parameters/StorageId"
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Limit"
       responses:
