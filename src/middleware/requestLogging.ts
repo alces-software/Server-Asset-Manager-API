@@ -2,15 +2,17 @@ import { Context, Next } from 'hono';
 import { prisma } from '../lib/prisma';
 
 async function logRequests(c: Context, next: Next) {
-   const start = Date.now();
+   if (!c.req.path.startsWith('/api/v2/')) {
+      return next();
+   }
 
+   const start = Date.now();
    const requestSizeBytes = Number(c.req.header('content-length')) || null;
 
    await next();
 
    const durationMs = Date.now() - start;
    const user = c.get('user');
-
    const responseSizeBytes = Number(c.res.headers.get('content-length')) || null;
 
    try {
