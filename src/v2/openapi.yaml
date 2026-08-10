@@ -295,7 +295,8 @@ paths:
                $ref: "#/components/responses/NotFound"
             "500":
                $ref: "#/components/responses/InternalServerError"
-   /assets/{assetId}/tags/add:
+
+   /assets/{id}/tags/add:
       post:
          tags: [Assets]
          operationId: addTagsToAsset
@@ -339,7 +340,7 @@ paths:
             "500":
                $ref: "#/components/responses/InternalServerError"
 
-   /assets/{assetId}/tags/remove:
+   /assets/{id}/tags/remove:
       post:
          tags: [Assets]
          operationId: removeTagsFromAsset
@@ -2095,7 +2096,7 @@ components:
             totalPages:
                type: integer
                format: int32
-            storage:
+            storages:
                type: array
                items:
                   $ref: "#/components/schemas/StorageAsset"
@@ -2407,6 +2408,11 @@ components:
       StorageAsset:
          allOf:
             - $ref: "#/components/schemas/AssetBase"
+            - $ref: "#/components/schemas/StorageProperties"
+
+      StorageUpdate:
+         allOf:
+            - $ref: "#/components/schemas/AssetUpdate"
             - $ref: "#/components/schemas/StorageProperties"
 
       ServerCreate:
