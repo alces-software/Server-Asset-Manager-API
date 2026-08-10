@@ -37,10 +37,7 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
          return notFoundError(c);
       }
 
-      return c.json(
-         serializeAsset({ ...asset, jsonPosition: 0 }),
-         200
-      );
+      return c.json(serializeAsset({ ...asset, jsonPosition: 0 }), 200);
    } catch (err) {
       return internalServerError(c, err);
    }

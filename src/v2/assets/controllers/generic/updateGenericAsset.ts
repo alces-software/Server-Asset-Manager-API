@@ -98,12 +98,7 @@ export default new Hono().patch(
             }
          });
 
-         return c.json(
-            serializeAsset(
-               { ...updatedAsset, jsonPosition: 0 }
-            ),
-            200
-         );
+         return c.json(serializeAsset({ ...updatedAsset, jsonPosition: 0 }), 200);
       } catch (err) {
          return internalServerError(c, err);
       }
