@@ -4,7 +4,6 @@ import { prisma } from '../../../../lib/prisma';
 import { internalServerError } from '../../../../lib/errorMessages';
 import { assetInclude, serializeAsset } from '../../lib/util';
 import { paginationQueryValidator } from '../../../../lib/validators';
-import server from 'hono/jsx/dom/server';
 
 export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
    try {

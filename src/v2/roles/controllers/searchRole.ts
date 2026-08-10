@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { z } from 'zod';
 
 import { prisma } from '../../../lib/prisma';
 import { internalServerError } from '../../../lib/errorMessages';

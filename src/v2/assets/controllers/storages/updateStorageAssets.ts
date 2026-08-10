@@ -4,7 +4,7 @@ import { prisma } from '../../../../lib/prisma';
 import { internalServerError, notFoundError } from '../../../../lib/errorMessages';
 import { assetInclude, serializeAsset } from '../../lib/util';
 import { bodyValidator, idParamValidator } from '../../../../lib/validators';
-import { size, z } from 'zod';
+import { z } from 'zod';
 
 export default new Hono().patch(
    '/',

@@ -1,12 +1,10 @@
 import { Hono } from 'hono';
-import { z } from 'zod';
 
 import { prisma } from '../../../../lib/prisma';
 import { internalServerError, notFoundError } from '../../../../lib/errorMessages';
 import {
    idParamValidator,
-   paginationQueryValidator,
-   queryValidator
+   paginationQueryValidator
 } from '../../../../lib/validators';
 
 export default new Hono().get(
