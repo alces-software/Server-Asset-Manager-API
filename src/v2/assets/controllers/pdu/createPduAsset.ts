@@ -48,7 +48,7 @@ export default new Hono().post(
 
          // Check if a pdu exists
          if (existingPdu) {
-            return existingResourceError(c);
+            return existingResourceError(c, `PDU with name: ${body.name} already exists.`);
          }
 
          // Add the new pdu to the database

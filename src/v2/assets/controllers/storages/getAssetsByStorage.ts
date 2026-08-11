@@ -33,7 +33,7 @@ export default new Hono().get(
 
          // Check if the asset exists
          if (!storage) {
-            return notFoundError(c);
+            return notFoundError(c, `Storage with id: ${id}, could not be found.`);
          }
 
          // Get all the assets

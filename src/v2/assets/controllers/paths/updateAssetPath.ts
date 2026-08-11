@@ -63,12 +63,12 @@ export default new Hono().patch(
 
          // Check if the asset exists
          if (!existingAsset) {
-            return notFoundError(c);
+            return notFoundError(c, `Asset with id: ${id} could not be found.`);
          }
 
          // Check that the path exists
          if (!existingAsset.paths[0]) {
-            return notFoundError(c);
+            return notFoundError(c, `Path with id: ${pathId} could not be found.`);
          }
 
          // Update the path in the database

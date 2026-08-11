@@ -36,7 +36,7 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
 
       // Check if the ups exists
       if (!ups) {
-         return notFoundError(c);
+         return notFoundError(c, `UPS with id: ${id} could not be found.`);
       }
 
       return c.json(

@@ -40,7 +40,7 @@ export default new Hono().post(
          });
 
          if (!asset) {
-            return notFoundError(c);
+            return notFoundError(c, `Asset with id: ${id} could not be found.`);
          }
 
          const updatedAsset = await prisma.asset.update({

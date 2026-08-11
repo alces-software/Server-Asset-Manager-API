@@ -24,6 +24,26 @@ export default new Hono().delete(
          // Get request information
          const { id, historyId } = c.req.valid('param');
 
+         // Try and get the asset from the database
+         const asset = await prisma.asset.findUnique({
+            where: {
+               id: id
+            },
+            include: {
+               paths: true,
+               _count: {
+                  select: {
+                     json: true
+                  }
+               }
+            }
+         });
+
+         // Check whether the asset exists
+         if (!asset) {
+            return notFoundError(c, `Asset with id: ${id} could not be found.`);
+         }
+
          // Get the path checking that in matches the asset id and the path id
          const jsonHistory = await prisma.assetJson.findFirst({
             where: {
@@ -37,7 +57,7 @@ export default new Hono().delete(
 
          // Checks if the path exists
          if (!jsonHistory) {
-            return notFoundError(c);
+            return notFoundError(c, `Asset history with id: ${id} could not be found.`);
          }
 
          // Delete the path

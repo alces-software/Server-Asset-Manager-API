@@ -83,7 +83,7 @@ export default new Hono().patch(
 
             // Check if the storage exists
             if (!existingStorage) {
-               return notFoundError(c);
+               return notFoundError(c, `Storage with id: ${body.storageId} could not be found.`);
             }
          }
 

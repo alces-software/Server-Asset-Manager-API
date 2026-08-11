@@ -48,7 +48,7 @@ export default new Hono().post(
 
          // Check if a storage exists
          if (existingStorage) {
-            return existingResourceError(c);
+            return existingResourceError(c, `Storage with name: ${body.name} already exists.`);
          }
 
          // Add the new storage to the database

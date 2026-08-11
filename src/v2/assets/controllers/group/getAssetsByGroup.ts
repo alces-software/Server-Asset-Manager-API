@@ -30,7 +30,7 @@ export default new Hono().get(
 
          // Check if the asset exists
          if (!group) {
-            return notFoundError(c);
+            return notFoundError(c, `Group with id ${id} could not be found`);
          }
 
          // Get all the assets

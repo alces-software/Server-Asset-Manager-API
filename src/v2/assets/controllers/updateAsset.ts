@@ -58,7 +58,7 @@ export default new Hono().patch(
 
          // Check if the asset exists
          if (!existingAsset) {
-            return notFoundError(c);
+            return notFoundError(c, `Asset with id: ${id} could not be found`);
          }
 
          if (body.storageId) {
@@ -71,7 +71,7 @@ export default new Hono().patch(
 
             // Check if the storage exists
             if (!existingStorage) {
-               return notFoundError(c);
+               return notFoundError(c, `Storage with id: ${body.storageId} could not be found`);
             }
          }
 

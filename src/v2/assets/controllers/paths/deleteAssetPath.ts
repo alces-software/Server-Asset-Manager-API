@@ -24,6 +24,18 @@ export default new Hono().delete(
          // Get request information
          const { id, pathId } = c.req.valid('param');
 
+         // Try and get the asset from the database
+         const asset = await prisma.asset.findFirst({
+            where: {
+               id
+            }
+         });
+
+         // Check whether the asset exists
+         if (!asset) {
+            return notFoundError(c, `Asset with id: ${id} could not be found.`);
+         }
+
          // Get the path checking that in matches the asset id and the path id
          const path = await prisma.assetPath.findFirst({
             where: {
@@ -37,7 +49,7 @@ export default new Hono().delete(
 
          // Checks if the path exists
          if (!path) {
-            return notFoundError(c);
+            return notFoundError(c, `Path with id: ${id} could not be found.`);
          }
 
          // Delete the path

@@ -77,11 +77,11 @@ function invalidQueryError(c: Context, result: { error: { issues: unknown[] } })
  * @param c
  * @returns
  */
-function notFoundError(c: Context) {
+function notFoundError(c: Context, message?: string) {
    return c.json(
       {
          error: 'NOT_FOUND',
-         message: 'The requested resource does not exist.'
+         message: message || 'The requested resource does not exist.'
       },
       404
    );
@@ -107,11 +107,11 @@ function invalidJsonError(c: Context) {
  * @param c
  * @returns
  */
-function existingResourceError(c: Context) {
+function existingResourceError(c: Context, message?: string) {
    return c.json(
       {
          error: 'CONFLATING_RESOURCE',
-         message: 'There is already a resource in the database'
+         message: message || 'There is already a resource in the database'
       },
       409
    );
