@@ -36,7 +36,7 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
 
       // Check if the pdu exists
       if (!pdu) {
-         return notFoundError(c);
+         return notFoundError(c, `PDU with id: ${id} could not be found.`);
       }
 
       return c.json(

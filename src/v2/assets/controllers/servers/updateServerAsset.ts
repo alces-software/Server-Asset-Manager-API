@@ -63,7 +63,7 @@ export default new Hono().patch(
 
          // Check if the server exists
          if (!existingServer) {
-            return notFoundError(c);
+            return notFoundError(c, `Server with id: ${id} could not be found.`);
          }
 
          if (body.storageId) {
@@ -76,7 +76,7 @@ export default new Hono().patch(
 
             // Check if the storage exists
             if (!existingStorage) {
-               return notFoundError(c);
+               return notFoundError(c, `Storage with id: ${id} could not be found.`);
             }
          }
 

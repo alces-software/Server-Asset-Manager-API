@@ -76,7 +76,7 @@ export default new Hono().patch(
 
          // Check if the storage exists
          if (!existingStorage) {
-            return notFoundError(c);
+            return notFoundError(c, `Storage with id: ${id}, could not be found.`);
          }
 
          if (body.storageId) {
@@ -89,7 +89,7 @@ export default new Hono().patch(
 
             // Check if the storage exists
             if (!existingStorage) {
-               return notFoundError(c);
+               return notFoundError(c, `Storage with id: ${body.storageId}, could not be found.`);
             }
 
             // Make sure the storages wont make a circle

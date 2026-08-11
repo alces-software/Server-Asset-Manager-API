@@ -45,7 +45,7 @@ export default new Hono().post('/', bodyValidator(assetSchema), async (c) => {
 
       // Check if a asset exists
       if (existingAsset) {
-         return existingResourceError(c);
+         return existingResourceError(c, `Asset with name: ${body.name} already exists`);
       }
 
       // Add the new asset to the database

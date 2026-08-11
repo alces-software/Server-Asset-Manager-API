@@ -47,7 +47,7 @@ export default new Hono().post(
 
          // Check if a ups exists
          if (existingUps) {
-            return existingResourceError(c);
+            return existingResourceError(c, `UPS with name: ${body.name} already exists.`);
          }
 
          // Add the new ups to the database

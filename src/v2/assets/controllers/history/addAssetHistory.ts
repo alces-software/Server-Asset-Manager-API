@@ -55,7 +55,7 @@ export default new Hono().post(
 
          // Check whether the asset exists
          if (!asset) {
-            return notFoundError(c);
+            return notFoundError(c, `Asset with id: ${id} could not be found.`);
          }
 
          // Add a new json to the history if a json is passed in

@@ -36,7 +36,7 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
 
       // Check if the storage exists
       if (!storage) {
-         return notFoundError(c);
+         return notFoundError(c, `Storage with id: ${id}, could not be found.`);
       }
 
       return c.json(

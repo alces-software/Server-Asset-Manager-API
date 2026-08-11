@@ -27,7 +27,7 @@ export default new Hono().delete('/', idParamValidator({}), async (c) => {
 
       // Check if the asset exists
       if (!existingAsset) {
-         return notFoundError(c);
+         return notFoundError(c, `Asset with id: ${id} could not be found`);
       }
 
       // Delete the asset the database

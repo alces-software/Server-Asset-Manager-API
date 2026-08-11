@@ -31,7 +31,7 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
 
       // Check if the server exists
       if (!server) {
-         return notFoundError(c);
+         return notFoundError(c, `Server with id ${id} could not be found.`);
       }
 
       return c.json(serializeAsset({ ...server, jsonPosition: 0 }), 200);

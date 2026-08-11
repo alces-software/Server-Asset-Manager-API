@@ -44,7 +44,7 @@ export default new Hono().post(
 
          // Check if a server exists
          if (existingServer) {
-            return existingResourceError(c);
+            return existingResourceError(c, `Server with name: ${body.name} already exists.`);
          }
 
          // Add the new server to the database

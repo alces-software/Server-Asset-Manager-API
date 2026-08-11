@@ -40,7 +40,7 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
 
       // Check if the asset exists
       if (!asset) {
-         return notFoundError(c);
+         return notFoundError(c, `Asset with id ${id} could not be found.`);
       }
 
       return c.json(serializeAsset({ ...asset, jsonPosition: 0 }), 200);

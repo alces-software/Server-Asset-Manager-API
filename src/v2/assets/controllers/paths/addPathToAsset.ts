@@ -44,10 +44,7 @@ export default new Hono().post(
          // Try and get the asset from the database
          const asset = await prisma.asset.findFirst({
             where: {
-               id,
-               server: {
-                  isNot: null
-               }
+               id
             },
             include: {
                json: {
@@ -64,7 +61,7 @@ export default new Hono().post(
 
          // Check whether the asset exists
          if (!asset) {
-            return notFoundError(c);
+            return notFoundError(c, `Asset with id: ${id} could not be found.`);
          }
 
          // Add all the new paths to the asset
