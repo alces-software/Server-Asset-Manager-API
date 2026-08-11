@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 
-export default new Hono().post('/', async (c) => {
+export default new Hono().get('/', async (c) => {
    // Get the user information
    const user = c.get('user');
 
