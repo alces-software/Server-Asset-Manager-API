@@ -24,7 +24,7 @@ export const assetSchema = z.object({
          })
       )
       .default([]),
-   group: z
+   groupId: z
       .number({ error: 'Group ID must be a number' })
       .int({ error: 'Group ID must be an integer' })
       .positive({ error: 'Group ID must be greater than 0' })
