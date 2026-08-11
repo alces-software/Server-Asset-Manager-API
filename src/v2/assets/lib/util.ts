@@ -8,15 +8,15 @@ import { getValueFromJson } from '../../../lib/util';
  */
 function buildBaseAssetSchema(body: {
    name: string;
-   group?: number;
+   groupId?: number;
    tags: number[];
    paths: { name: string; path: string }[];
    json?: string | null;
 }) {
    return {
       name: body.name,
-      ...(body.group !== undefined && {
-         groupId: body.group
+      ...(body.groupId !== undefined && {
+         groupId: body.groupId
       }),
       ...(body.json != null && {
          json: {
@@ -86,11 +86,11 @@ function serializeAsset(
       }),
       json: asset.json[0]
          ? {
-              id: asset.json[0].id,
-              rawJson: asset.json[0].rawJson,
-              position: asset.jsonPosition,
-              total: asset._count.json
-           }
+            id: asset.json[0].id,
+            rawJson: asset.json[0].rawJson,
+            position: asset.jsonPosition,
+            total: asset._count.json
+         }
          : null
    };
 }
