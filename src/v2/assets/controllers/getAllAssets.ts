@@ -20,7 +20,11 @@ export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
       const [assets, total] = await prisma.$transaction([
          prisma.asset.findMany({
             include: {
-               ...assetInclude
+               ...assetInclude,
+               server: true,
+               storageType: true,
+               ups: true,
+               pdu: true
             },
             skip: (page - 1) * limit,
             take: limit
@@ -31,7 +35,32 @@ export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
 
       return c.json(
          {
-            assets: assets.map((asset) => serializeAsset({ ...asset, jsonPosition: 0 })),
+            assets: assets.map((asset) => {
+               let assetType: 'server' | 'storage' | 'ups' | 'pdu' | 'asset' = 'asset';
+               let extras = {}
+
+               if (asset.server) {
+                  assetType = 'server';
+                  extras = { ...asset.server }
+               } else if (asset.storageType) {
+                  assetType = 'storage';
+                  extras = { ...asset.storageType }
+               } else if (asset.ups) {
+                  assetType = 'ups';
+                  extras = { ...asset.ups }
+               } else if (asset.pdu) {
+                  assetType = 'pdu';
+                  extras = { ...asset.pdu }
+               }
+
+               return serializeAsset(
+                  { ...asset, jsonPosition: 0 },
+                  {
+                     assetType: assetType as 'server' | 'storage' | 'ups' | 'pdu' | 'asset',
+                     ...extras
+                  }
+               );
+            }),
             page,
             limit,
             total,
