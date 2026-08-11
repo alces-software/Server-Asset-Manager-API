@@ -42,6 +42,7 @@ import searchStorageAssets from './controllers/storages/searchStorageAssets';
 import searchServerAssets from './controllers/servers/searchServerAssets';
 import searchPduAssets from './controllers/pdu/searchPduAssets';
 import searchGenericAssets from './controllers/generic/searchGenericAssets';
+import addTemplateToAsset from './controllers/template/addTemplateToAsset';
 
 export default new Hono()
    .route('/search', searchAssets)
@@ -80,6 +81,8 @@ export default new Hono()
    .route('/groups/:id', getAssetsByGroup)
 
    .route('/tags', getAssetsByTags)
+
+   .route("/:id/template/:templateId", addTemplateToAsset)
 
    .route('/:id/paths/:pathId', deleteAssetPath)
    .route('/:id/paths', addPathToAsset)

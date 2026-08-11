@@ -128,7 +128,7 @@ CREATE TABLE Templates (
 CREATE TABLE TemplatePaths (
    id INT AUTO_INCREMENT PRIMARY KEY,
    path TEXT NOT NULL,
-   name VARCHAR(255),
+   name VARCHAR(255) NOT NULL,
    templateId INT NOT NULL,
    CONSTRAINT fk_templatepath_template FOREIGN KEY (templateId) REFERENCES Templates (id) ON DELETE CASCADE
 );

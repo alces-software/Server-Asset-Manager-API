@@ -529,6 +529,46 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/InternalServerError"
+  "/assets/{id}/template/{templateId}":
+    post:
+      tags:
+        - Assets
+      operationId: addTemplateToAsset
+      summary: Add all paths from a template to an asset
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Asset identifier.
+          schema:
+            type: integer
+            format: int32
+        - name: templateId
+          in: path
+          required: true
+          description: Template identifier.
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "201":
+          description: Paths added
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AssetPath"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorised"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /assets/servers:
     get:
       tags:
