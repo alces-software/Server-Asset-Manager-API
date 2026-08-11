@@ -60,6 +60,7 @@ function serializeAsset(
       paths: { id: number; name: string; path: string }[];
       json: { rawJson: string; id: number }[];
       jsonPosition: number | null;
+      position: number;
       _count: { json: number };
    },
    extra: Record<string, unknown> = {}
@@ -68,6 +69,7 @@ function serializeAsset(
       id: asset.id,
       name: asset.name,
       notes: asset.notes,
+      position: asset.position,
       ...extra,
       storage: {
          id: asset.storageId,
