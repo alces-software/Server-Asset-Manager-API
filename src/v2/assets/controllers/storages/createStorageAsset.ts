@@ -20,7 +20,7 @@ export default new Hono().post(
             .number({ error: 'Size must be a number' })
             .int({ error: 'Size must be an integer' })
             .positive({ error: 'Size must be greater than 0' })
-            .default(0)
+            .default(1)
       })
    ),
    async (c) => {
@@ -55,6 +55,7 @@ export default new Hono().post(
          const newStorage = await prisma.asset.create({
             data: {
                ...buildBaseAssetSchema(body),
+               size: body.size,
                storageType: {
                   create: {
                      size: body.size

@@ -16,7 +16,12 @@ export default new Hono().post(
    '/',
    bodyValidator(
       assetSchema.extend({
-         model: z.string({ error: 'Model must be a string' }).trim().optional()
+         model: z.string({ error: 'Model must be a string' }).trim().optional(),
+         size: z
+            .number({ error: 'Size must be a number' })
+            .int({ error: 'Size must be an integer' })
+            .positive({ error: 'Size must be greater than 0' })
+            .default(1)
       })
    ),
    async (c) => {
@@ -51,6 +56,7 @@ export default new Hono().post(
          const newServer = await prisma.asset.create({
             data: {
                ...buildBaseAssetSchema(body),
+               size: body.size,
                server: {
                   create: {
                      model: body.model
