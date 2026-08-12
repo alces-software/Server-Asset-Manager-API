@@ -38,7 +38,13 @@ export default new Hono().get('/', searchQueryValidator({}), async (c) => {
                }
             },
             include: {
-               ...assetInclude
+               ...assetInclude,
+               server: {
+                  select: {
+                     size: true,
+                     model: true
+                  }
+               }
             },
             skip: (page - 1) * limit,
             take: limit
@@ -63,7 +69,12 @@ export default new Hono().get('/', searchQueryValidator({}), async (c) => {
 
       return c.json(
          {
-            servers: servers.map((server) => serializeAsset({ ...server, jsonPosition: 0 })),
+            servers: servers.map((server) =>
+               serializeAsset(
+                  { ...server, jsonPosition: 0 },
+                  { size: server.server?.size, model: server.server?.model }
+               )
+            ),
             page,
             limit,
             total,

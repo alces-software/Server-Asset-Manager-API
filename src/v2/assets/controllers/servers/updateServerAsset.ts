@@ -30,7 +30,12 @@ export default new Hono().patch(
                .int({ error: 'Group ID must be an integer' })
                .positive({ error: 'Group ID must be greater than 0' })
                .optional(),
-            model: z.string({ error: 'Model must be a string' }).trim().optional()
+            model: z.string({ error: 'Model must be a string' }).trim().optional(),
+            size: z
+               .number({ error: 'Size must be a number' })
+               .int({ error: 'Size must be an integer' })
+               .positive({ error: 'Size must be greater than 0' })
+               .optional()
          })
          .refine((data) => Object.keys(data).length > 0, {
             error: 'At least one field must be provided'
@@ -57,7 +62,12 @@ export default new Hono().patch(
             },
             include: {
                ...assetInclude,
-               server: true
+               server: {
+                  select: {
+                     size: true,
+                     model: true
+                  }
+               }
             }
          });
 
@@ -93,16 +103,29 @@ export default new Hono().patch(
                groupId: body.groupId ?? existingServer.groupId,
                server: {
                   update: {
+                     size: body.size ?? existingServer.server?.size,
                      model: body.model ?? existingServer.server?.model
                   }
                }
             },
             include: {
-               ...assetInclude
+               ...assetInclude,
+               server: {
+                  select: {
+                     size: true,
+                     model: true
+                  }
+               }
             }
          });
 
-         return c.json(serializeAsset({ ...updatedServer, jsonPosition: 0 }), 200);
+         return c.json(
+            serializeAsset(
+               { ...updatedServer, jsonPosition: 0 },
+               { size: updatedServer.server?.size, model: updatedServer.server?.model }
+            ),
+            200
+         );
       } catch (err) {
          return internalServerError(c, err);
       }

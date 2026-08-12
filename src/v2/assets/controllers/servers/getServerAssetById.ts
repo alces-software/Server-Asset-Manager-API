@@ -26,7 +26,12 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
          },
          include: {
             ...assetInclude,
-            server: true
+            server: {
+               select: {
+                  model: true,
+                  size: true
+               }
+            }
          }
       });
 

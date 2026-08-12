@@ -28,6 +28,7 @@ export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
                ...assetInclude,
                server: {
                   select: {
+                     size: true,
                      model: true
                   }
                }
@@ -43,6 +44,7 @@ export default new Hono().get('/', paginationQueryValidator({}), async (c) => {
                ...serializeAsset(
                   { ...server, jsonPosition: 0 },
                   {
+                     size: server.server?.size,
                      model: server.server?.model
                   }
                )
