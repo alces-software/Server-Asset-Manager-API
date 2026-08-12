@@ -9,12 +9,14 @@ import { getValueFromJson } from '../../../lib/util';
 function buildBaseAssetSchema(body: {
    name: string;
    groupId?: number;
+   position?: number;
    tags: number[];
    paths: { name: string; path: string }[];
    json?: string | null;
 }) {
    return {
       name: body.name,
+      position: body.position,
       ...(body.groupId !== undefined && {
          groupId: body.groupId
       }),
