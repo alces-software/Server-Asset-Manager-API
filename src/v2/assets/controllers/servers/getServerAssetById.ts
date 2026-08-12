@@ -25,7 +25,8 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
             }
          },
          include: {
-            ...assetInclude
+            ...assetInclude,
+            server: true
          }
       });
 
@@ -34,7 +35,13 @@ export default new Hono().get('/', idParamValidator({}), async (c) => {
          return notFoundError(c, `Server with id ${id} could not be found.`);
       }
 
-      return c.json(serializeAsset({ ...server, jsonPosition: 0 }), 200);
+      return c.json(
+         serializeAsset(
+            { ...server, jsonPosition: 0 },
+            { size: server.server?.size, model: server.server?.model }
+         ),
+         200
+      );
    } catch (err) {
       return internalServerError(c, err);
    }
