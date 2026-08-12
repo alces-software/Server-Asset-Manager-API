@@ -8,6 +8,7 @@ import { getValueFromJson } from '../../../lib/util';
  */
 function buildBaseAssetSchema(body: {
    name: string;
+   storageId?: number;
    groupId?: number;
    position?: number;
    tags: number[];
@@ -17,6 +18,7 @@ function buildBaseAssetSchema(body: {
    return {
       name: body.name,
       position: body.position,
+      storageId: body.storageId,
       ...(body.groupId !== undefined && {
          groupId: body.groupId
       }),
@@ -90,11 +92,11 @@ function serializeAsset(
       }),
       json: asset.json[0]
          ? {
-            id: asset.json[0].id,
-            rawJson: asset.json[0].rawJson,
-            position: asset.jsonPosition,
-            total: asset._count.json
-         }
+              id: asset.json[0].id,
+              rawJson: asset.json[0].rawJson,
+              position: asset.jsonPosition,
+              total: asset._count.json
+           }
          : null
    };
 }

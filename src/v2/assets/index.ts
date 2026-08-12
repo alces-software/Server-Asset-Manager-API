@@ -82,7 +82,7 @@ export default new Hono()
 
    .route('/tags', getAssetsByTags)
 
-   .route("/:id/template/:templateId", addTemplateToAsset)
+   .route('/:id/template/:templateId', addTemplateToAsset)
 
    .route('/:id/paths/:pathId', deleteAssetPath)
    .route('/:id/paths', addPathToAsset)

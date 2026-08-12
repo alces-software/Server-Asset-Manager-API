@@ -64,20 +64,20 @@ export default new Hono().get(
             {
                assets: assets.map((asset) => {
                   let assetType: 'server' | 'storage' | 'ups' | 'pdu' | 'asset' = 'asset';
-                  let extras = {}
+                  let extras = {};
 
                   if (asset.server) {
                      assetType = 'server';
-                     extras = { ...asset.server }
+                     extras = { ...asset.server };
                   } else if (asset.storageType) {
                      assetType = 'storage';
-                     extras = { ...asset.storageType }
+                     extras = { ...asset.storageType };
                   } else if (asset.ups) {
                      assetType = 'ups';
-                     extras = { ...asset.ups }
+                     extras = { ...asset.ups };
                   } else if (asset.pdu) {
                      assetType = 'pdu';
-                     extras = { ...asset.pdu }
+                     extras = { ...asset.pdu };
                   }
 
                   return serializeAsset(

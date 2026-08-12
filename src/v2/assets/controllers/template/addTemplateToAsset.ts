@@ -83,7 +83,7 @@ export default new Hono().post(
             include: {
                paths: true
             }
-         })
+         });
 
          return c.json(
             updatedAsset.paths.map((path) => {

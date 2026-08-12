@@ -29,7 +29,13 @@ export const assetSchema = z.object({
       .int({ error: 'Group ID must be an integer' })
       .positive({ error: 'Group ID must be greater than 0' })
       .optional(),
-   position: z.number({ error: 'Position must be a number' })
+   storageId: z
+      .number({ error: 'Storage ID must be a number' })
+      .int({ error: 'Storage ID must be an integer' })
+      .positive({ error: 'Storage ID must be greater than 0' })
+      .optional(),
+   position: z
+      .number({ error: 'Position must be a number' })
       .int({ error: 'Position must be an integer' })
       .nonnegative({ error: 'Position cannot be a negative number' })
       .default(0),
