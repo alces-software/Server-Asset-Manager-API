@@ -56,9 +56,9 @@ export default new Hono().post(
          const newServer = await prisma.asset.create({
             data: {
                ...buildBaseAssetSchema(body),
-               size: body.size,
                server: {
                   create: {
+                     size: body.size,
                      model: body.model
                   }
                }

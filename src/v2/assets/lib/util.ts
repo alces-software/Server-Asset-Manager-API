@@ -94,11 +94,11 @@ function serializeAsset(
       }),
       json: asset.json[0]
          ? {
-            id: asset.json[0].id,
-            rawJson: asset.json[0].rawJson,
-            position: asset.jsonPosition,
-            total: asset._count.json
-         }
+              id: asset.json[0].id,
+              rawJson: asset.json[0].rawJson,
+              position: asset.jsonPosition,
+              total: asset._count.json
+           }
          : null
    };
 }

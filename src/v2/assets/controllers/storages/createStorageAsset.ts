@@ -55,7 +55,6 @@ export default new Hono().post(
          const newStorage = await prisma.asset.create({
             data: {
                ...buildBaseAssetSchema(body),
-               size: body.size,
                storageType: {
                   create: {
                      size: body.size
